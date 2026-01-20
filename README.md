@@ -31,8 +31,8 @@
 
 ```bash
 # 克隆仓库
-git clone https://github.com/dstar/distributed-gpu-framework.git
-cd distributed-gpu-framework
+git clone https://github.com/sxl19971024/distributed_gpu.git
+cd distributed_gpu
 
 # 安装依赖
 pip install -r requirements.txt
