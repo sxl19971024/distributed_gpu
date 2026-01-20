@@ -11,8 +11,8 @@ with open("README.md", "r", encoding="utf-8") as fh:
 setup(
     name="distributed-gpu-framework",
     version="1.0.0",
-    author="dstar",
-    author_email="dstar@example.com",
+    author="孙小林",
+    author_email="1271364457@qq.com",
     description="基于MPI的分布式GPU计算框架，用于大规模科学计算",
     long_description=long_description,
     long_description_content_type="text/markdown",

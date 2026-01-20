@@ -158,8 +158,8 @@ MIT License
 
 ## 📧 联系方式
 
-- 作者: dstar
-- Email: dstar@example.com
+- 作者: 孙小林
+- Email: 1271364457@qq.com
 
 ## 📚 引用
 
@@ -167,9 +167,9 @@ MIT License
 
 ```bibtex
 @software{distributed_gpu_framework,
-  author = {dstar},
+  author = {孙小林},
   title = {MPI-based Distributed GPU Computing Framework},
   year = {2026},
-  url = {https://github.com/dstar/distributed-gpu-framework}
+  url = {https://github.com/sxl19971024/distributed_gpu}
 }
 ```
