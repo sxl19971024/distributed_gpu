@@ -145,7 +145,7 @@ distributed_gpu_framework/
 ## 📖 文档
 
 - [安装指南](INSTALL.md)
-- [API文档](docs/api.md)（待完善）
+- [API使用指南](docs/API_GUIDE.md) - 每个算法的详细参数和示例
 - [使用教程](docs/tutorial.md)（待完善）
 
 ## 🤝 贡献
