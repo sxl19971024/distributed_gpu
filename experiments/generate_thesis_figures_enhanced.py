@@ -2,8 +2,12 @@
 """
 增强版 — 生成硕士论文所需的全部图表 (基于增强版实验数据)
 包含误差棒, 更多子图, 更丰富的对比
+
+用法:
+  python experiments/generate_thesis_figures_enhanced.py --data-dir results/n4_20260211_143025
+  python experiments/generate_thesis_figures_enhanced.py             # 自动使用最新一次运行
 """
-import os, json, glob
+import os, sys, json, glob, argparse
 import numpy as np
 
 import matplotlib
@@ -16,10 +20,9 @@ plt.rcParams['axes.unicode_minus'] = False
 plt.rcParams['font.size'] = 12
 plt.rcParams['figure.dpi'] = 150
 
-RESULTS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                           "results", "thesis_enhanced")
-FIGURES_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                           "results", "thesis_enhanced", "figures")
+# 由命令行参数或 main() 设定
+RESULTS_DIR = None
+FIGURES_DIR = None
 
 def ensure_dir(d):
     os.makedirs(d, exist_ok=True)
@@ -34,12 +37,32 @@ def load_json(pattern):
             results[base] = data
     return results
 
+def find_latest_run_dir():
+    """自动查找 results/ 下最新的运行目录 (按修改时间)"""
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    results_root = os.path.join(project_root, "results")
+    if not os.path.isdir(results_root):
+        return None
+    # 查找形如 n{数字}_{时间戳} 的目录
+    candidates = []
+    for d in os.listdir(results_root):
+        full = os.path.join(results_root, d)
+        if os.path.isdir(full) and d.startswith("n") and "_" in d:
+            # 检查是否包含 json 数据文件
+            jsons = glob.glob(os.path.join(full, "*.json"))
+            if jsons:
+                candidates.append((os.path.getmtime(full), full, d))
+    if not candidates:
+        return None
+    candidates.sort(reverse=True)  # 最新在前
+    return candidates[0][1]
+
 
 # ================================================================
 #  图1: 计算性能对比 (含误差棒)
 # ================================================================
 def fig1_compute_performance():
-    files = load_json("exp1_compute_performance_n*.json")
+    files = load_json("exp1_compute_performance*.json")
     if not files:
         print("跳过: exp1 数据不存在"); return
 
@@ -114,7 +137,7 @@ def fig1_compute_performance():
 #  图2: 通信开销分析 (含误差棒)
 # ================================================================
 def fig2_comm_overhead():
-    files = load_json("exp2_comm_overhead_n*.json")
+    files = load_json("exp2_comm_overhead*.json")
     if not files:
         print("跳过: exp2 数据不存在"); return
 
@@ -181,7 +204,7 @@ def fig2_comm_overhead():
 #  图3: 强可扩展性 (多矩阵规模)
 # ================================================================
 def fig3_strong_scaling():
-    files = load_json("exp3_strong_scaling_n*.json")
+    files = load_json("exp3_strong_scaling*.json")
     if not files:
         print("跳过: exp3 数据不存在"); return
 
@@ -270,7 +293,7 @@ def fig3_strong_scaling():
 #  图4: 弱可扩展性 (多per_gpu_rows)
 # ================================================================
 def fig4_weak_scaling():
-    files = load_json("exp4_weak_scaling_n*.json")
+    files = load_json("exp4_weak_scaling*.json")
     if not files:
         print("跳过: exp4 数据不存在"); return
 
@@ -360,7 +383,7 @@ def fig4_weak_scaling():
 #  图5: 混合精度 (含误差棒)
 # ================================================================
 def fig5_mixed_precision():
-    files = load_json("exp5_innovation_n*.json")
+    files = load_json("exp5_innovation*.json")
     if not files:
         print("跳过: exp5 数据不存在"); return
 
@@ -433,7 +456,7 @@ def fig5_mixed_precision():
 #  图6: Kahan 补偿求和精度
 # ================================================================
 def fig6_kahan():
-    files = load_json("exp5_innovation_n*.json")
+    files = load_json("exp5_innovation*.json")
     if not files:
         return
     data = list(files.values())[0]
@@ -483,7 +506,7 @@ def fig6_kahan():
 #  图7: 稀疏感知 (多规模)
 # ================================================================
 def fig7_sparse():
-    files = load_json("exp5_innovation_n*.json")
+    files = load_json("exp5_innovation*.json")
     if not files:
         return
     data = list(files.values())[0]
@@ -531,7 +554,7 @@ def fig7_sparse():
 #  图8: Pencil FFT
 # ================================================================
 def fig8_pencil_fft():
-    files = load_json("exp5_innovation_n*.json")
+    files = load_json("exp5_innovation*.json")
     if not files:
         return
     data = list(files.values())[0]
@@ -582,7 +605,7 @@ def fig8_pencil_fft():
 #  图9: 流水线优化 (含误差棒, 热力图)
 # ================================================================
 def fig9_pipeline():
-    files = load_json("exp6_pipeline_n*.json")
+    files = load_json("exp6_pipeline*.json")
     if not files:
         print("跳过: exp6 数据不存在"); return
 
@@ -674,7 +697,7 @@ def fig9_pipeline():
 #  图10: 代价模型策略选择 (含最优标记)
 # ================================================================
 def fig10_cost_model():
-    files = load_json("exp7_cost_model_n*.json")
+    files = load_json("exp7_cost_model*.json")
     if not files:
         print("跳过: exp7 数据不存在"); return
 
@@ -739,7 +762,7 @@ def fig10_cost_model():
 #  图11: Stencil 应用
 # ================================================================
 def fig11_stencil():
-    files = load_json("exp8_applications_n*.json")
+    files = load_json("exp8_applications*.json")
     if not files:
         return
     data = list(files.values())[0]
@@ -788,7 +811,7 @@ def fig11_stencil():
 #  图12: Jacobi 应用
 # ================================================================
 def fig12_jacobi():
-    files = load_json("exp8_applications_n*.json")
+    files = load_json("exp8_applications*.json")
     if not files:
         return
     data = list(files.values())[0]
@@ -837,7 +860,7 @@ def fig12_jacobi():
 #  图13: Conv2d 应用
 # ================================================================
 def fig13_conv():
-    files = load_json("exp8_applications_n*.json")
+    files = load_json("exp8_applications*.json")
     if not files:
         return
     data = list(files.values())[0]
@@ -888,7 +911,7 @@ def fig13_conv():
 #  图14: Einsum 应用
 # ================================================================
 def fig14_einsum():
-    files = load_json("exp8_applications_n*.json")
+    files = load_json("exp8_applications*.json")
     if not files:
         return
     data = list(files.values())[0]
@@ -934,8 +957,66 @@ def fig14_einsum():
 #  Main
 # ================================================================
 def main():
+    global RESULTS_DIR, FIGURES_DIR
+
+    parser = argparse.ArgumentParser(description="根据实验数据生成论文图表")
+    parser.add_argument("--data-dir", "-d", type=str, default=None,
+                        help="实验数据目录路径 (默认: 自动使用最新一次运行)")
+    parser.add_argument("--list-runs", action="store_true",
+                        help="列出所有可用的运行记录")
+    args = parser.parse_args()
+
+    # 列出历史运行
+    if args.list_runs:
+        project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        results_root = os.path.join(project_root, "results")
+        if not os.path.isdir(results_root):
+            print("没有找到任何运行记录。")
+            sys.exit(0)
+        print("\n可用的运行记录:")
+        print("-" * 70)
+        print(f"  {'目录名':<30} {'数据文件数':<10} {'图表数':<10}")
+        print("-" * 70)
+        for d in sorted(os.listdir(results_root)):
+            full = os.path.join(results_root, d)
+            if os.path.isdir(full) and d.startswith("n") and "_" in d:
+                jsons = glob.glob(os.path.join(full, "*.json"))
+                figs_dir = os.path.join(full, "figures")
+                pngs = glob.glob(os.path.join(figs_dir, "*.png")) if os.path.isdir(figs_dir) else []
+                print(f"  {d:<30} {len(jsons):<10} {len(pngs):<10}")
+        print("-" * 70)
+        sys.exit(0)
+
+    # 确定数据目录
+    if args.data_dir:
+        RESULTS_DIR = args.data_dir
+    else:
+        RESULTS_DIR = find_latest_run_dir()
+        if RESULTS_DIR is None:
+            # 兼容旧版目录结构 (results/thesis_enhanced/)
+            project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            legacy_dir = os.path.join(project_root, "results", "thesis_enhanced")
+            if os.path.isdir(legacy_dir):
+                RESULTS_DIR = legacy_dir
+            else:
+                print("错误: 没有找到任何实验数据。请先运行实验。")
+                print("  python run_experiments.py --gpus 4 --exp all")
+                sys.exit(1)
+
+    FIGURES_DIR = os.path.join(RESULTS_DIR, "figures")
     ensure_dir(FIGURES_DIR)
-    print("生成增强版论文图表...")
+
+    # 提取运行信息
+    run_name = os.path.basename(RESULTS_DIR)
+    json_count = len(glob.glob(os.path.join(RESULTS_DIR, "*.json")))
+
+    print(f"\n{'='*60}")
+    print(f"  生成论文图表")
+    print(f"  数据目录: {RESULTS_DIR}")
+    print(f"  运行标识: {run_name}")
+    print(f"  数据文件: {json_count} 个")
+    print(f"  图表输出: {FIGURES_DIR}")
+    print(f"{'='*60}\n")
 
     fig1_compute_performance()
     fig2_comm_overhead()
@@ -952,9 +1033,11 @@ def main():
     fig13_conv()
     fig14_einsum()
 
-    print(f"\n全部图表已保存至: {FIGURES_DIR}")
-    file_count = len([f for f in os.listdir(FIGURES_DIR) if f.endswith('.png')])
-    print(f"共 {file_count} 张图")
+    png_count = len([f for f in os.listdir(FIGURES_DIR) if f.endswith('.png')])
+    print(f"\n{'='*60}")
+    print(f"  图表生成完成!")
+    print(f"  共 {png_count} 张图, 保存在: {FIGURES_DIR}")
+    print(f"{'='*60}")
 
 
 if __name__ == "__main__":

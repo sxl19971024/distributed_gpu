@@ -7,9 +7,11 @@
 - 创新算子对比增加更多规模点
 
 运行方式:
-  mpirun -n <N> python experiments/thesis_experiments_enhanced.py <exp_id>
-  例: mpirun -n 4 python experiments/thesis_experiments_enhanced.py 1
-  运行全部: mpirun -n 4 python experiments/thesis_experiments_enhanced.py all
+  python run_experiments.py --gpus 4 --exp all          (推荐)
+  python run_experiments.py --gpus 8 --exp 1            (指定GPU数和实验)
+  mpirun -n 4 python experiments/thesis_experiments_enhanced.py all   (直接运行)
+  
+结果自动保存在 results/n{GPU数}_{时间戳}/ 目录下，多次运行互不覆盖。
 """
 
 import sys, os, json, time, math, gc
@@ -22,8 +24,8 @@ from distributed_gpu.tensor_distributor import TensorDistributor
 from distributed_gpu.gpu_manager import GPUManager
 from distributed_gpu.cost_model import CostModel, ClusterConfig, SplitStrategy
 
-RESULTS_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-                           "results", "thesis_enhanced")
+# RESULTS_DIR 在 main() 中根据 GPU 数和时间戳动态设定
+RESULTS_DIR = None
 
 def ensure_dir(path):
     if not os.path.exists(path):
@@ -32,7 +34,7 @@ def ensure_dir(path):
 def save_result(exp_name, data, mpi):
     if mpi.is_master_process():
         ensure_dir(RESULTS_DIR)
-        fname = os.path.join(RESULTS_DIR, f"{exp_name}_n{mpi.get_size()}.json")
+        fname = os.path.join(RESULTS_DIR, f"{exp_name}.json")
         with open(fname, "w") as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
         print(f"  [保存] {fname}")
@@ -1015,10 +1017,38 @@ def exp8_applications(mpi, distributor):
 #  Main
 # ==============================================================
 def main():
+    global RESULTS_DIR
+    from datetime import datetime
+
     mpi = MPIManager()
     distributor = TensorDistributor(mpi)
 
-    exp_id = sys.argv[1] if len(sys.argv) > 1 else "all"
+    # 解析命令行参数
+    exp_id = "all"
+    output_dir = None
+    i = 1
+    while i < len(sys.argv):
+        arg = sys.argv[i]
+        if arg == "--output-dir" and i + 1 < len(sys.argv):
+            output_dir = sys.argv[i + 1]
+            i += 2
+        else:
+            exp_id = arg
+            i += 1
+
+    # 生成输出目录: results/n{gpu}_{timestamp}/
+    if output_dir:
+        RESULTS_DIR = output_dir
+    else:
+        project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        run_name = f"n{mpi.get_size()}_{timestamp}"
+        RESULTS_DIR = os.path.join(project_root, "results", run_name)
+
+    if mpi.is_master_process():
+        ensure_dir(RESULTS_DIR)
+
+    mpi.print_master(f"\n结果输出目录: {RESULTS_DIR}")
 
     experiments = {
         "1": ("实验1: 计算性能对比(增强)", exp1_compute_performance),
@@ -1047,7 +1077,7 @@ def main():
         mpi.print_master(f"{'='*60}")
         fn(mpi, distributor)
 
-    mpi.print_master("\n全部增强版实验完成!")
+    mpi.print_master(f"\n全部实验完成! 结果保存在: {RESULTS_DIR}")
 
 
 if __name__ == "__main__":
