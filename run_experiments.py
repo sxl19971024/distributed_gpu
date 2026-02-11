@@ -94,15 +94,8 @@ def list_run_history():
             runs.append((d, gpu_str, ts_str, len(jsons), len(pngs)))
 
     if not runs:
-        # 检查旧版目录
-        legacy = os.path.join(results_root, "thesis_enhanced")
-        if os.path.isdir(legacy):
-            jsons = glob.glob(os.path.join(legacy, "*.json"))
-            figs_dir = os.path.join(legacy, "figures")
-            pngs = glob.glob(os.path.join(figs_dir, "*.png")) if os.path.isdir(figs_dir) else []
-            print(f"\n  (旧版) thesis_enhanced/: {len(jsons)} 个数据文件, {len(pngs)} 张图")
-        else:
-            print("没有找到任何运行记录。")
+        print("没有找到任何运行记录。请先运行实验:")
+        print("  python run_experiments.py --gpus 4 --exp all")
         return
 
     print(f"\n历史运行记录 ({len(runs)} 次):")

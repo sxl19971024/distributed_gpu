@@ -993,15 +993,9 @@ def main():
     else:
         RESULTS_DIR = find_latest_run_dir()
         if RESULTS_DIR is None:
-            # 兼容旧版目录结构 (results/thesis_enhanced/)
-            project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-            legacy_dir = os.path.join(project_root, "results", "thesis_enhanced")
-            if os.path.isdir(legacy_dir):
-                RESULTS_DIR = legacy_dir
-            else:
-                print("错误: 没有找到任何实验数据。请先运行实验。")
-                print("  python run_experiments.py --gpus 4 --exp all")
-                sys.exit(1)
+            print("错误: 没有找到任何实验数据。请先运行实验。")
+            print("  python run_experiments.py --gpus 4 --exp all")
+            sys.exit(1)
 
     FIGURES_DIR = os.path.join(RESULTS_DIR, "figures")
     ensure_dir(FIGURES_DIR)
