@@ -1,0 +1,55 @@
+{
+  "experiment": "计算性能对比",
+  "gpu_count": 4,
+  "data": [
+    {
+      "matrix_size": 1000,
+      "single_gpu_ms": 0.06,
+      "distributed_ms": 0.28,
+      "speedup": 0.201,
+      "efficiency_pct": 5.0
+    },
+    {
+      "matrix_size": 2000,
+      "single_gpu_ms": 0.27,
+      "distributed_ms": 0.35,
+      "speedup": 0.764,
+      "efficiency_pct": 19.1
+    },
+    {
+      "matrix_size": 4000,
+      "single_gpu_ms": 1.95,
+      "distributed_ms": 2.01,
+      "speedup": 0.969,
+      "efficiency_pct": 24.2
+    },
+    {
+      "matrix_size": 6000,
+      "single_gpu_ms": 6.48,
+      "distributed_ms": 7.09,
+      "speedup": 0.913,
+      "efficiency_pct": 22.8
+    },
+    {
+      "matrix_size": 8000,
+      "single_gpu_ms": 15.43,
+      "distributed_ms": 15.79,
+      "speedup": 0.977,
+      "efficiency_pct": 24.4
+    },
+    {
+      "matrix_size": 10000,
+      "single_gpu_ms": 31.45,
+      "distributed_ms": 31.67,
+      "speedup": 0.993,
+      "efficiency_pct": 24.8
+    },
+    {
+      "matrix_size": 12000,
+      "single_gpu_ms": 52.91,
+      "distributed_ms": 53.11,
+      "speedup": 0.996,
+      "efficiency_pct": 24.9
+    }
+  ]
+}

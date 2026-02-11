@@ -1,11 +1,9 @@
-# 核心依赖
+# ============================================
+# distributed_gpu 核心依赖
+# 安装方式: pip install -r requirements.txt
+# ============================================
+
 torch>=2.0.0
 mpi4py>=3.1.0
 numpy>=1.21.0
 opt-einsum>=3.3.0
-
-# 可选依赖
-cupy-cuda11x>=12.0.0
-scipy>=1.9.0
-psutil>=5.9.0
-pyyaml>=6.0

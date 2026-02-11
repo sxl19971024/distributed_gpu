@@ -1,0 +1,17 @@
+{
+  "num_gpus": 1,
+  "gpu": "NVIDIA GeForce RTX 5090",
+  "matmul": {
+    "mpi_gpu": 605.1332552102394,
+    "ours": 2.1049074130132794,
+    "pytorch_dist": 2.148991997819394
+  },
+  "fft": {
+    "ours": 0.1999736065044999
+  },
+  "_meta": {
+    "experiment": "exp03_strong_scaling_n1",
+    "timestamp": "2026-02-08T15:00:23.358484",
+    "run_id": "20260208_150023"
+  }
+}

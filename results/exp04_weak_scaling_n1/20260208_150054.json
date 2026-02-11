@@ -1,0 +1,12 @@
+{
+  "num_gpus": 1,
+  "gpu": "NVIDIA GeForce RTX 5090",
+  "matmul_raw": 33.88833061326295,
+  "matmul_ours": 0.07599839009344578,
+  "fft_ours": 0.0398842035792768,
+  "_meta": {
+    "experiment": "exp04_weak_scaling_n1",
+    "timestamp": "2026-02-08T15:00:54.011075",
+    "run_id": "20260208_150054"
+  }
+}

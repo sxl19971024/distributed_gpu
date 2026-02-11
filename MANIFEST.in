@@ -1,0 +1,14 @@
+include LICENSE
+include README.md
+include requirements.txt
+include requirements-optional.txt
+include pyproject.toml
+
+recursive-include distributed_gpu *.py
+recursive-exclude experiments *
+recursive-exclude examples *
+recursive-exclude results *
+recursive-exclude docs *
+recursive-exclude * __pycache__
+recursive-exclude * *.pyc
+recursive-exclude * *.pyo

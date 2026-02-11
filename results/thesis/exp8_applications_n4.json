@@ -1,0 +1,176 @@
+{
+  "experiment": "科学计算应用",
+  "gpu_count": 4,
+  "data": {
+    "stencil": [
+      {
+        "grid_size": 256,
+        "iterations": 10,
+        "time_ms": 213.57,
+        "iter_per_sec": 46.8
+      },
+      {
+        "grid_size": 256,
+        "iterations": 50,
+        "time_ms": 1.52,
+        "iter_per_sec": 32943.0
+      },
+      {
+        "grid_size": 256,
+        "iterations": 100,
+        "time_ms": 2.72,
+        "iter_per_sec": 36721.3
+      },
+      {
+        "grid_size": 512,
+        "iterations": 10,
+        "time_ms": 0.96,
+        "iter_per_sec": 10379.4
+      },
+      {
+        "grid_size": 512,
+        "iterations": 50,
+        "time_ms": 1.56,
+        "iter_per_sec": 31998.0
+      },
+      {
+        "grid_size": 512,
+        "iterations": 100,
+        "time_ms": 2.83,
+        "iter_per_sec": 35362.1
+      },
+      {
+        "grid_size": 1024,
+        "iterations": 10,
+        "time_ms": 0.9,
+        "iter_per_sec": 11084.3
+      },
+      {
+        "grid_size": 1024,
+        "iterations": 50,
+        "time_ms": 1.68,
+        "iter_per_sec": 29751.1
+      },
+      {
+        "grid_size": 1024,
+        "iterations": 100,
+        "time_ms": 2.98,
+        "iter_per_sec": 33600.1
+      },
+      {
+        "grid_size": 2048,
+        "iterations": 10,
+        "time_ms": 17.25,
+        "iter_per_sec": 579.7
+      },
+      {
+        "grid_size": 2048,
+        "iterations": 50,
+        "time_ms": 3.15,
+        "iter_per_sec": 15850.3
+      },
+      {
+        "grid_size": 2048,
+        "iterations": 100,
+        "time_ms": 5.59,
+        "iter_per_sec": 17901.4
+      }
+    ],
+    "jacobi": [
+      {
+        "grid_size": 256,
+        "max_iters": 200,
+        "time_ms": 98.44
+      },
+      {
+        "grid_size": 512,
+        "max_iters": 200,
+        "time_ms": 18.5
+      },
+      {
+        "grid_size": 1024,
+        "max_iters": 200,
+        "time_ms": 18.86
+      }
+    ],
+    "conv2d": [
+      {
+        "batch_size": 16,
+        "single_gpu_ms": 0.14,
+        "distributed_ms": 0.45,
+        "speedup": 0.319
+      },
+      {
+        "batch_size": 32,
+        "single_gpu_ms": 0.22,
+        "distributed_ms": 0.55,
+        "speedup": 0.406
+      },
+      {
+        "batch_size": 64,
+        "single_gpu_ms": 0.51,
+        "distributed_ms": 0.78,
+        "speedup": 0.657
+      },
+      {
+        "batch_size": 128,
+        "single_gpu_ms": 0.99,
+        "distributed_ms": 1.93,
+        "speedup": 0.513
+      }
+    ],
+    "einsum": [
+      {
+        "equation": "ij,jk->ik",
+        "shapes": [
+          [
+            2000,
+            1000
+          ],
+          [
+            1000,
+            2000
+          ]
+        ],
+        "description": "矩阵乘法",
+        "time_ms": 0.42
+      },
+      {
+        "equation": "bij,bjk->bik",
+        "shapes": [
+          [
+            32,
+            256,
+            128
+          ],
+          [
+            32,
+            128,
+            256
+          ]
+        ],
+        "description": "批量矩阵乘法",
+        "time_ms": 0.17
+      },
+      {
+        "equation": "ijkl,klmn->ijmn",
+        "shapes": [
+          [
+            16,
+            16,
+            32,
+            32
+          ],
+          [
+            32,
+            32,
+            16,
+            16
+          ]
+        ],
+        "description": "4阶张量收缩",
+        "time_ms": 0.41
+      }
+    ]
+  }
+}

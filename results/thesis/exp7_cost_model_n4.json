@@ -1,0 +1,46 @@
+{
+  "experiment": "代价模型策略",
+  "gpu_count": 4,
+  "data": [
+    {
+      "shape": "[8000,2000]@[2000,2000]",
+      "description": "M>>N",
+      "auto_strategy": "row",
+      "auto_time_ms": 1.2,
+      "row_split_ms": 1.17,
+      "col_split_ms": 1.16
+    },
+    {
+      "shape": "[2000,2000]@[2000,8000]",
+      "description": "N>>M",
+      "auto_strategy": "row",
+      "auto_time_ms": 1.23,
+      "row_split_ms": 1.23,
+      "col_split_ms": 1.23
+    },
+    {
+      "shape": "[4000,4000]@[4000,4000]",
+      "description": "M≈N",
+      "auto_strategy": "row",
+      "auto_time_ms": 2.12,
+      "row_split_ms": 2.13,
+      "col_split_ms": 2.12
+    },
+    {
+      "shape": "[10000,1000]@[1000,1000]",
+      "description": "M>>>N",
+      "auto_strategy": "row",
+      "auto_time_ms": 0.55,
+      "row_split_ms": 0.55,
+      "col_split_ms": 0.55
+    },
+    {
+      "shape": "[1000,1000]@[1000,10000]",
+      "description": "N>>>M",
+      "auto_strategy": "row",
+      "auto_time_ms": 0.55,
+      "row_split_ms": 0.55,
+      "col_split_ms": 0.55
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "experiment": "强可扩展性(增强)",
+  "gpu_count": 4,
+  "repeats": 5,
+  "data": [
+    {
+      "matrix_size": 2048,
+      "num_gpus": 4,
+      "single_gpu_mean_ms": 0.27,
+      "single_gpu_std_ms": 0.01,
+      "distributed_mean_ms": 0.63,
+      "distributed_std_ms": 0.02,
+      "speedup": 0.431,
+      "efficiency_pct": 10.8,
+      "all_times": [
+        0.65,
+        0.66,
+        0.62,
+        0.61,
+        0.62
+      ]
+    },
+    {
+      "matrix_size": 4096,
+      "num_gpus": 4,
+      "single_gpu_mean_ms": 1.98,
+      "single_gpu_std_ms": 0.0,
+      "distributed_mean_ms": 2.39,
+      "distributed_std_ms": 0.14,
+      "speedup": 0.83,
+      "efficiency_pct": 20.7,
+      "all_times": [
+        2.32,
+        2.32,
+        2.31,
+        2.68,
+        2.31
+      ]
+    },
+    {
+      "matrix_size": 6144,
+      "num_gpus": 4,
+      "single_gpu_mean_ms": 6.52,
+      "single_gpu_std_ms": 0.26,
+      "distributed_mean_ms": 6.56,
+      "distributed_std_ms": 0.02,
+      "speedup": 0.993,
+      "efficiency_pct": 24.8,
+      "all_times": [
+        6.57,
+        6.56,
+        6.56,
+        6.54,
+        6.58
+      ]
+    },
+    {
+      "matrix_size": 8192,
+      "num_gpus": 4,
+      "single_gpu_mean_ms": 16.3,
+      "single_gpu_std_ms": 0.66,
+      "distributed_mean_ms": 15.13,
+      "distributed_std_ms": 0.27,
+      "speedup": 1.078,
+      "efficiency_pct": 26.9,
+      "all_times": [
+        15.05,
+        14.99,
+        14.96,
+        14.96,
+        15.67
+      ]
+    },
+    {
+      "matrix_size": 10240,
+      "num_gpus": 4,
+      "single_gpu_mean_ms": 32.14,
+      "single_gpu_std_ms": 1.17,
+      "distributed_mean_ms": 29.79,
+      "distributed_std_ms": 0.27,
+      "speedup": 1.079,
+      "efficiency_pct": 27.0,
+      "all_times": [
+        29.34,
+        30.01,
+        30.11,
+        29.66,
+        29.81
+      ]
+    }
+  ]
+}

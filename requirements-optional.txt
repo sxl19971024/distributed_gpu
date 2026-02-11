@@ -1,0 +1,22 @@
+# ============================================
+# distributed_gpu 可选依赖
+# 安装方式: pip install -r requirements-optional.txt
+# ============================================
+
+# 科学计算扩展
+scipy>=1.9.0
+
+# GPU 加速（CuPy，根据 CUDA 版本选择）
+# CUDA 11.x: pip install cupy-cuda11x
+# CUDA 12.x: pip install cupy-cuda12x
+# 通用:      pip install cupy
+
+# 系统监控
+psutil>=5.9.0
+
+# 配置文件支持
+pyyaml>=6.0
+
+# 实验与可视化
+matplotlib>=3.5.0
+seaborn>=0.12.0

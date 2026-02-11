@@ -1,0 +1,16 @@
+{
+  "experiment": "弱可扩展性",
+  "per_gpu_rows": 2000,
+  "K": 2000,
+  "N_col": 2000,
+  "gpu_count": 8,
+  "data": [
+    {
+      "num_gpus": 8,
+      "total_M": 16000,
+      "single_gpu_ms": 0.27,
+      "distributed_ms": 2.04,
+      "weak_efficiency_pct": 13.3
+    }
+  ]
+}

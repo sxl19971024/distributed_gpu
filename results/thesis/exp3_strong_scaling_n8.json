@@ -1,0 +1,14 @@
+{
+  "experiment": "强可扩展性",
+  "matrix_size": 8000,
+  "gpu_count": 8,
+  "data": [
+    {
+      "num_gpus": 8,
+      "single_gpu_ms": 15.05,
+      "distributed_ms": 15.62,
+      "speedup": 0.963,
+      "efficiency_pct": 12.0
+    }
+  ]
+}

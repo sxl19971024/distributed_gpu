@@ -1,0 +1,51 @@
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "distributed-gpu"
+version = "1.3.0"
+description = "基于MPI的分布式GPU计算框架，支持大规模张量并行计算"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+authors = [
+    {name = "孙小林", email = "1271364457@qq.com"},
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Programming Language :: Python :: 3",
+    "Topic :: Scientific/Engineering",
+    "Topic :: System :: Distributed Computing",
+]
+dependencies = [
+    "torch>=2.0.0",
+    "mpi4py>=3.1.0",
+    "numpy>=1.21.0",
+    "opt-einsum>=3.3.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-mpi>=0.6",
+    "matplotlib>=3.5.0",
+]
+full = [
+    "cupy>=12.0.0",
+    "scipy>=1.9.0",
+    "psutil>=5.9.0",
+    "pyyaml>=6.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/dstar/distributed_gpu"
+Repository = "https://github.com/dstar/distributed_gpu"
+Issues = "https://github.com/dstar/distributed_gpu/issues"
+
+[tool.setuptools.packages.find]
+include = ["distributed_gpu*"]
+exclude = ["experiments*", "examples*", "docs*", "results*"]
