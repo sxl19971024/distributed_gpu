@@ -2,8 +2,13 @@
 # distributed_gpu 核心依赖
 # 安装方式: pip install -r requirements.txt
 # ============================================
+# PyTorch >=2.2 默认从 PyPI 安装即包含 CUDA 12.1 支持
+# 如需其他 CUDA 版本，请手动安装:
+#   CUDA 11.8: pip install torch --index-url https://download.pytorch.org/whl/cu118
+#   CUDA 12.4: pip install torch --index-url https://download.pytorch.org/whl/cu124
+# ============================================
 
-torch>=2.0.0
+torch>=2.2.0
 mpi4py>=3.1.0
 numpy>=1.21.0
 opt-einsum>=3.3.0

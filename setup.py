@@ -40,7 +40,7 @@ setup(
     ],
     python_requires=">=3.8",
     install_requires=[
-        "torch>=2.0.0",
+        "torch>=2.2.0",
         "mpi4py>=3.1.0",
         "numpy>=1.21.0",
         "opt-einsum>=3.3.0",
