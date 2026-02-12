@@ -1,0 +1,127 @@
+{
+  "experiment": "代价模型策略(增强)",
+  "gpu_count": 4,
+  "repeats": 5,
+  "data": [
+    {
+      "shape": "[8192,2048]@[2048,2048]",
+      "description": "M>>K,N (4:1:1)",
+      "auto_strategy": "row",
+      "auto_mean_ms": 1.44,
+      "auto_std_ms": 0.02,
+      "row_split_mean_ms": 2.0,
+      "row_split_std_ms": 0.83,
+      "col_split_mean_ms": 1.44,
+      "col_split_std_ms": 0.01,
+      "auto_is_optimal": true
+    },
+    {
+      "shape": "[2048,2048]@[2048,8192]",
+      "description": "N>>M,K (1:1:4)",
+      "auto_strategy": "row",
+      "auto_mean_ms": 1.45,
+      "auto_std_ms": 0.01,
+      "row_split_mean_ms": 1.49,
+      "row_split_std_ms": 0.09,
+      "col_split_mean_ms": 1.46,
+      "col_split_std_ms": 0.03,
+      "auto_is_optimal": true
+    },
+    {
+      "shape": "[4096,4096]@[4096,4096]",
+      "description": "M=K=N (1:1:1)",
+      "auto_strategy": "row",
+      "auto_mean_ms": 2.34,
+      "auto_std_ms": 0.01,
+      "row_split_mean_ms": 2.8,
+      "row_split_std_ms": 0.85,
+      "col_split_mean_ms": 2.47,
+      "col_split_std_ms": 0.26,
+      "auto_is_optimal": true
+    },
+    {
+      "shape": "[10240,1024]@[1024,1024]",
+      "description": "M>>>K,N (10:1:1)",
+      "auto_strategy": "row",
+      "auto_mean_ms": 0.72,
+      "auto_std_ms": 0.01,
+      "row_split_mean_ms": 0.85,
+      "row_split_std_ms": 0.17,
+      "col_split_mean_ms": 0.74,
+      "col_split_std_ms": 0.01,
+      "auto_is_optimal": true
+    },
+    {
+      "shape": "[1024,1024]@[1024,10240]",
+      "description": "N>>>M,K (1:1:10)",
+      "auto_strategy": "row",
+      "auto_mean_ms": 0.86,
+      "auto_std_ms": 0.26,
+      "row_split_mean_ms": 0.79,
+      "row_split_std_ms": 0.12,
+      "col_split_mean_ms": 0.73,
+      "col_split_std_ms": 0.01,
+      "auto_is_optimal": false
+    },
+    {
+      "shape": "[8192,1024]@[1024,8192]",
+      "description": "M=N>>K (8:1:8)",
+      "auto_strategy": "row",
+      "auto_mean_ms": 3.05,
+      "auto_std_ms": 0.91,
+      "row_split_mean_ms": 2.34,
+      "row_split_std_ms": 0.02,
+      "col_split_mean_ms": 2.35,
+      "col_split_std_ms": 0.01,
+      "auto_is_optimal": false
+    },
+    {
+      "shape": "[2048,8192]@[8192,2048]",
+      "description": "K>>M,N (1:4:1)",
+      "auto_strategy": "row",
+      "auto_mean_ms": 1.65,
+      "auto_std_ms": 0.41,
+      "row_split_mean_ms": 1.36,
+      "row_split_std_ms": 0.05,
+      "col_split_mean_ms": 1.35,
+      "col_split_std_ms": 0.01,
+      "auto_is_optimal": false
+    },
+    {
+      "shape": "[4096,2048]@[2048,8192]",
+      "description": "N>M>K (2:1:4)",
+      "auto_strategy": "row",
+      "auto_mean_ms": 2.35,
+      "auto_std_ms": 0.01,
+      "row_split_mean_ms": 2.35,
+      "row_split_std_ms": 0.01,
+      "col_split_mean_ms": 2.46,
+      "col_split_std_ms": 0.24,
+      "auto_is_optimal": true
+    },
+    {
+      "shape": "[6144,6144]@[6144,2048]",
+      "description": "M=K>>N (3:3:1)",
+      "auto_strategy": "row",
+      "auto_mean_ms": 2.53,
+      "auto_std_ms": 0.01,
+      "row_split_mean_ms": 2.57,
+      "row_split_std_ms": 0.06,
+      "col_split_mean_ms": 2.85,
+      "col_split_std_ms": 0.63,
+      "auto_is_optimal": true
+    },
+    {
+      "shape": "[2048,6144]@[6144,6144]",
+      "description": "K=N>>M (1:3:3)",
+      "auto_strategy": "row",
+      "auto_mean_ms": 2.56,
+      "auto_std_ms": 0.06,
+      "row_split_mean_ms": 2.65,
+      "row_split_std_ms": 0.2,
+      "col_split_mean_ms": 2.53,
+      "col_split_std_ms": 0.0,
+      "auto_is_optimal": true
+    }
+  ]
+}

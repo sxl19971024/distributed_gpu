@@ -1,0 +1,211 @@
+{
+  "experiment": "计算性能对比(增强)",
+  "gpu_count": 4,
+  "repeats": 5,
+  "data": [
+    {
+      "matrix_size": 512,
+      "single_gpu_mean_ms": 0.02,
+      "single_gpu_std_ms": 0.0,
+      "distributed_mean_ms": 0.53,
+      "distributed_std_ms": 0.23,
+      "speedup": 0.046,
+      "efficiency_pct": 1.1,
+      "distributed_gflops": 503.0,
+      "all_dist_times": [
+        0.43,
+        0.45,
+        0.39,
+        1.0,
+        0.4
+      ]
+    },
+    {
+      "matrix_size": 1024,
+      "single_gpu_mean_ms": 0.06,
+      "single_gpu_std_ms": 0.0,
+      "distributed_mean_ms": 1.02,
+      "distributed_std_ms": 1.17,
+      "speedup": 0.055,
+      "efficiency_pct": 1.4,
+      "distributed_gflops": 2112.6,
+      "all_dist_times": [
+        0.44,
+        0.42,
+        0.42,
+        0.44,
+        3.36
+      ]
+    },
+    {
+      "matrix_size": 2048,
+      "single_gpu_mean_ms": 0.27,
+      "single_gpu_std_ms": 0.0,
+      "distributed_mean_ms": 0.65,
+      "distributed_std_ms": 0.01,
+      "speedup": 0.417,
+      "efficiency_pct": 10.4,
+      "distributed_gflops": 26402.5,
+      "all_dist_times": [
+        0.65,
+        0.64,
+        0.67,
+        0.66,
+        0.64
+      ]
+    },
+    {
+      "matrix_size": 3072,
+      "single_gpu_mean_ms": 0.84,
+      "single_gpu_std_ms": 0.01,
+      "distributed_mean_ms": 1.24,
+      "distributed_std_ms": 0.02,
+      "speedup": 0.676,
+      "efficiency_pct": 16.9,
+      "distributed_gflops": 46778.9,
+      "all_dist_times": [
+        1.24,
+        1.26,
+        1.26,
+        1.22,
+        1.22
+      ]
+    },
+    {
+      "matrix_size": 4096,
+      "single_gpu_mean_ms": 1.98,
+      "single_gpu_std_ms": 0.0,
+      "distributed_mean_ms": 2.35,
+      "distributed_std_ms": 0.01,
+      "speedup": 0.844,
+      "efficiency_pct": 21.1,
+      "distributed_gflops": 58510.9,
+      "all_dist_times": [
+        2.34,
+        2.35,
+        2.34,
+        2.34,
+        2.36
+      ]
+    },
+    {
+      "matrix_size": 5120,
+      "single_gpu_mean_ms": 3.8,
+      "single_gpu_std_ms": 0.09,
+      "distributed_mean_ms": 4.11,
+      "distributed_std_ms": 0.01,
+      "speedup": 0.924,
+      "efficiency_pct": 23.1,
+      "distributed_gflops": 65278.6,
+      "all_dist_times": [
+        4.13,
+        4.1,
+        4.11,
+        4.11,
+        4.11
+      ]
+    },
+    {
+      "matrix_size": 6144,
+      "single_gpu_mean_ms": 6.64,
+      "single_gpu_std_ms": 0.32,
+      "distributed_mean_ms": 7.24,
+      "distributed_std_ms": 1.19,
+      "speedup": 0.917,
+      "efficiency_pct": 22.9,
+      "distributed_gflops": 64033.5,
+      "all_dist_times": [
+        6.64,
+        6.63,
+        9.63,
+        6.69,
+        6.63
+      ]
+    },
+    {
+      "matrix_size": 7168,
+      "single_gpu_mean_ms": 10.7,
+      "single_gpu_std_ms": 0.47,
+      "distributed_mean_ms": 10.59,
+      "distributed_std_ms": 0.55,
+      "speedup": 1.01,
+      "efficiency_pct": 25.3,
+      "distributed_gflops": 69580.1,
+      "all_dist_times": [
+        10.32,
+        11.69,
+        10.33,
+        10.29,
+        10.3
+      ]
+    },
+    {
+      "matrix_size": 8192,
+      "single_gpu_mean_ms": 15.75,
+      "single_gpu_std_ms": 0.42,
+      "distributed_mean_ms": 14.97,
+      "distributed_std_ms": 0.01,
+      "speedup": 1.052,
+      "efficiency_pct": 26.3,
+      "distributed_gflops": 73467.9,
+      "all_dist_times": [
+        14.95,
+        14.99,
+        14.96,
+        14.96,
+        14.97
+      ]
+    },
+    {
+      "matrix_size": 10240,
+      "single_gpu_mean_ms": 31.97,
+      "single_gpu_std_ms": 1.22,
+      "distributed_mean_ms": 29.42,
+      "distributed_std_ms": 0.15,
+      "speedup": 1.087,
+      "efficiency_pct": 27.2,
+      "distributed_gflops": 73004.2,
+      "all_dist_times": [
+        29.46,
+        29.69,
+        29.29,
+        29.29,
+        29.35
+      ]
+    },
+    {
+      "matrix_size": 12288,
+      "single_gpu_mean_ms": 56.63,
+      "single_gpu_std_ms": 0.51,
+      "distributed_mean_ms": 50.99,
+      "distributed_std_ms": 0.52,
+      "speedup": 1.111,
+      "efficiency_pct": 27.8,
+      "distributed_gflops": 72779.2,
+      "all_dist_times": [
+        51.04,
+        51.85,
+        50.99,
+        50.22,
+        50.83
+      ]
+    },
+    {
+      "matrix_size": 14336,
+      "single_gpu_mean_ms": 92.41,
+      "single_gpu_std_ms": 0.44,
+      "distributed_mean_ms": 82.59,
+      "distributed_std_ms": 1.5,
+      "speedup": 1.119,
+      "efficiency_pct": 28.0,
+      "distributed_gflops": 71348.1,
+      "all_dist_times": [
+        81.61,
+        84.37,
+        81.23,
+        81.28,
+        84.46
+      ]
+    }
+  ]
+}

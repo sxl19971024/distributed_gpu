@@ -6,16 +6,23 @@
 小数据场景下性能与 CuPy 单卡一致。
 """
 
+from __future__ import annotations
+
 import torch
+from typing import Optional
+
 from ..mpi_manager import MPIManager
 
 
-def should_use_single_gpu(mpi: MPIManager, *tensors,
-                          mem_multiplier: float = 3.0) -> bool:
+def should_use_single_gpu(
+    mpi: MPIManager,
+    *tensors: Optional[torch.Tensor],
+    mem_multiplier: float = 3.0,
+) -> bool:
     """
     判断是否应使用单卡快速路径。
 
-    ** 所有 rank 都必须调用此函数（内部含 broadcast） **
+    **所有 rank 都必须调用此函数（内部含 broadcast）**
 
     逻辑：
       1. 单进程 (size==1) → True（无需广播）
@@ -37,17 +44,18 @@ def should_use_single_gpu(mpi: MPIManager, *tensors,
 
     # 多进程：master 估算显存，广播决策
     if mpi.is_master_process():
-        total_bytes = 0
+        total_bytes: int = 0
         for t in tensors:
             if t is not None and isinstance(t, torch.Tensor):
                 total_bytes += t.nelement() * t.element_size()
-        estimated = int(total_bytes * mem_multiplier)
+        estimated: int = int(total_bytes * mem_multiplier)
         try:
+            free_mem: int
             free_mem, _ = torch.cuda.mem_get_info(mpi.get_gpu_id())
-            use_single = estimated < free_mem * 0.6
+            use_single: bool = estimated < int(free_mem * 0.6)
         except Exception:
             use_single = False
     else:
-        use_single = None
+        use_single = None  # type: ignore[assignment]
 
     return mpi.broadcast(use_single)

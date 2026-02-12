@@ -22,7 +22,7 @@ from .pipeline_optimizer import PipelineOptimizer, PipelineConfig
 from .resource_planner import ResourcePlanner, ExecutionPlan, GPUStatus
 from .auto_executor import AutoExecutor, auto_compute
 
-__version__ = "1.3.0"
+__version__ = "1.4.0"
 __all__ = [
     "MPIManager",
     "MPIError",

@@ -1,22 +1,37 @@
 # ============================================
 # distributed_gpu 可选依赖
-# 安装方式: pip install -r requirements-optional.txt
+# ============================================
+# 推荐安装方式:
+#   pip install -e ".[full]"          # 全部可选依赖
+#   pip install -e ".[experiments]"   # 仅实验+图表
+#   pip install -e ".[dev]"           # 开发+测试
+#
+# 或使用本文件:
+#   pip install -r requirements-optional.txt
 # ============================================
 
 # 科学计算扩展
 scipy>=1.9.0
 
-# GPU 加速（CuPy，根据 CUDA 版本选择）
-# CUDA 11.x: pip install cupy-cuda11x
-# CUDA 12.x: pip install cupy-cuda12x
-# 通用:      pip install cupy
+# GPU 加速 (CUDA 12.x)
+cupy-cuda12x>=12.0.0
 
 # 系统监控
 psutil>=5.9.0
 
-# 配置文件支持
+# 配置文件
 pyyaml>=6.0
 
 # 实验与可视化
 matplotlib>=3.5.0
 seaborn>=0.12.0
+
+# ============================================
+# 跨框架对比实验依赖
+# 安装方式:
+#   pip install -r requirements-comparison.txt
+# ============================================
+# 以下依赖在 requirements-comparison.txt 中单独管理:
+# - petsc4py (需 conda 安装)
+# - dask-cuda
+# - cupy

@@ -1,0 +1,131 @@
+{
+  "experiment": "矩阵乘法跨框架对比",
+  "gpu_count": 3,
+  "single_gpu": [
+    {
+      "size": 1024,
+      "mean_ms": 0.06,
+      "std_ms": 0.0
+    },
+    {
+      "size": 2048,
+      "mean_ms": 0.27,
+      "std_ms": 0.0
+    },
+    {
+      "size": 4096,
+      "mean_ms": 1.99,
+      "std_ms": 0.0
+    },
+    {
+      "size": 8192,
+      "mean_ms": 16.39,
+      "std_ms": 0.6
+    },
+    {
+      "size": 16384,
+      "mean_ms": 135.33,
+      "std_ms": 1.23
+    },
+    {
+      "size": 32768,
+      "mean_ms": 1058.84,
+      "std_ms": 0.61
+    }
+  ],
+  "torch_distributed_nccl": [
+    {
+      "size": 1024,
+      "mean_ms": 0.52,
+      "std_ms": 0.08
+    },
+    {
+      "size": 2048,
+      "mean_ms": 1.15,
+      "std_ms": 0.03
+    },
+    {
+      "size": 4096,
+      "mean_ms": 4.0,
+      "std_ms": 0.03
+    },
+    {
+      "size": 8192,
+      "mean_ms": 17.49,
+      "std_ms": 0.03
+    },
+    {
+      "size": 16384,
+      "mean_ms": 91.16,
+      "std_ms": 0.99
+    },
+    {
+      "size": 32768,
+      "mean_ms": 540.61,
+      "std_ms": 0.88
+    }
+  ],
+  "distributed_gpu_framework": [],
+  "comparison": [
+    {
+      "size": 1024,
+      "data_gb": 0.012,
+      "single_ms": 0.06,
+      "nccl_ms": 0.52,
+      "ours_ms": 0.06,
+      "nccl_speedup": 0.115,
+      "ours_speedup": 1.0,
+      "ours_div_nccl": 0.12
+    },
+    {
+      "size": 2048,
+      "data_gb": 0.047,
+      "single_ms": 0.27,
+      "nccl_ms": 1.15,
+      "ours_ms": 0.27,
+      "nccl_speedup": 0.235,
+      "ours_speedup": 1.0,
+      "ours_div_nccl": 0.23
+    },
+    {
+      "size": 4096,
+      "data_gb": 0.188,
+      "single_ms": 1.99,
+      "nccl_ms": 4.0,
+      "ours_ms": 1.99,
+      "nccl_speedup": 0.497,
+      "ours_speedup": 1.0,
+      "ours_div_nccl": 0.5
+    },
+    {
+      "size": 8192,
+      "data_gb": 0.75,
+      "single_ms": 16.39,
+      "nccl_ms": 17.49,
+      "ours_ms": 16.39,
+      "nccl_speedup": 0.937,
+      "ours_speedup": 1.0,
+      "ours_div_nccl": 0.94
+    },
+    {
+      "size": 16384,
+      "data_gb": 3.0,
+      "single_ms": 135.33,
+      "nccl_ms": 91.16,
+      "ours_ms": 135.33,
+      "nccl_speedup": 1.485,
+      "ours_speedup": 1.0,
+      "ours_div_nccl": 1.48
+    },
+    {
+      "size": 32768,
+      "data_gb": 12.0,
+      "single_ms": 1058.84,
+      "nccl_ms": 540.61,
+      "ours_ms": 1058.84,
+      "nccl_speedup": 1.959,
+      "ours_speedup": 1.0,
+      "ours_div_nccl": 1.96
+    }
+  ]
+}

@@ -1,0 +1,200 @@
+{
+  "experiment": "Jacobi迭代跨框架对比",
+  "gpu_count": 3,
+  "petsc_or_numpy_cpu": [
+    {
+      "grid": 128,
+      "iterations": 100,
+      "mean_ms": 27.66,
+      "std_ms": 0.01
+    },
+    {
+      "grid": 256,
+      "iterations": 100,
+      "mean_ms": 88.11,
+      "std_ms": 0.15
+    },
+    {
+      "grid": 512,
+      "iterations": 100,
+      "mean_ms": 348.88,
+      "std_ms": 1.6
+    },
+    {
+      "grid": 1024,
+      "iterations": 100,
+      "mean_ms": 1462.77,
+      "std_ms": 13.25
+    },
+    {
+      "grid": 128,
+      "iterations": 500,
+      "mean_ms": 109.53,
+      "std_ms": 1.29
+    },
+    {
+      "grid": 256,
+      "iterations": 500,
+      "mean_ms": 320.26,
+      "std_ms": 0.23
+    },
+    {
+      "grid": 512,
+      "iterations": 500,
+      "mean_ms": 1244.48,
+      "std_ms": 9.71
+    },
+    {
+      "grid": 1024,
+      "iterations": 500,
+      "mean_ms": 5096.61,
+      "std_ms": 7.99
+    },
+    {
+      "grid": 2048,
+      "iterations": 100,
+      "mean_ms": 5637.62,
+      "std_ms": 21.14
+    },
+    {
+      "grid": 2048,
+      "iterations": 500,
+      "mean_ms": 18871.93,
+      "std_ms": 28.99
+    }
+  ],
+  "distributed_gpu_framework": [
+    {
+      "grid": 128,
+      "iterations": 100,
+      "mean_ms": 9.58,
+      "std_ms": 0.04
+    },
+    {
+      "grid": 256,
+      "iterations": 100,
+      "mean_ms": 9.68,
+      "std_ms": 0.01
+    },
+    {
+      "grid": 512,
+      "iterations": 100,
+      "mean_ms": 10.3,
+      "std_ms": 0.13
+    },
+    {
+      "grid": 1024,
+      "iterations": 100,
+      "mean_ms": 11.38,
+      "std_ms": 1.23
+    },
+    {
+      "grid": 128,
+      "iterations": 500,
+      "mean_ms": 45.66,
+      "std_ms": 0.05
+    },
+    {
+      "grid": 256,
+      "iterations": 500,
+      "mean_ms": 47.77,
+      "std_ms": 1.36
+    },
+    {
+      "grid": 512,
+      "iterations": 500,
+      "mean_ms": 48.19,
+      "std_ms": 0.03
+    },
+    {
+      "grid": 1024,
+      "iterations": 500,
+      "mean_ms": 48.81,
+      "std_ms": 0.15
+    },
+    {
+      "grid": 2048,
+      "iterations": 100,
+      "mean_ms": 13.14,
+      "std_ms": 0.06
+    },
+    {
+      "grid": 2048,
+      "iterations": 500,
+      "mean_ms": 65.68,
+      "std_ms": 6.7
+    }
+  ],
+  "comparison": [
+    {
+      "grid": 128,
+      "iterations": 100,
+      "cpu_ms": 27.66,
+      "gpu_dist_ms": 9.58,
+      "gpu_speedup_vs_cpu": 2.89
+    },
+    {
+      "grid": 256,
+      "iterations": 100,
+      "cpu_ms": 88.11,
+      "gpu_dist_ms": 9.68,
+      "gpu_speedup_vs_cpu": 9.1
+    },
+    {
+      "grid": 512,
+      "iterations": 100,
+      "cpu_ms": 348.88,
+      "gpu_dist_ms": 10.3,
+      "gpu_speedup_vs_cpu": 33.87
+    },
+    {
+      "grid": 1024,
+      "iterations": 100,
+      "cpu_ms": 1462.77,
+      "gpu_dist_ms": 11.38,
+      "gpu_speedup_vs_cpu": 128.54
+    },
+    {
+      "grid": 128,
+      "iterations": 500,
+      "cpu_ms": 109.53,
+      "gpu_dist_ms": 45.66,
+      "gpu_speedup_vs_cpu": 2.4
+    },
+    {
+      "grid": 256,
+      "iterations": 500,
+      "cpu_ms": 320.26,
+      "gpu_dist_ms": 47.77,
+      "gpu_speedup_vs_cpu": 6.7
+    },
+    {
+      "grid": 512,
+      "iterations": 500,
+      "cpu_ms": 1244.48,
+      "gpu_dist_ms": 48.19,
+      "gpu_speedup_vs_cpu": 25.82
+    },
+    {
+      "grid": 1024,
+      "iterations": 500,
+      "cpu_ms": 5096.61,
+      "gpu_dist_ms": 48.81,
+      "gpu_speedup_vs_cpu": 104.42
+    },
+    {
+      "grid": 2048,
+      "iterations": 100,
+      "cpu_ms": 5637.62,
+      "gpu_dist_ms": 13.14,
+      "gpu_speedup_vs_cpu": 429.04
+    },
+    {
+      "grid": 2048,
+      "iterations": 500,
+      "cpu_ms": 18871.93,
+      "gpu_dist_ms": 65.68,
+      "gpu_speedup_vs_cpu": 287.33
+    }
+  ]
+}

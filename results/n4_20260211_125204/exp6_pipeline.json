@@ -1,0 +1,295 @@
+{
+  "experiment": "流水线优化(增强)",
+  "gpu_count": 4,
+  "repeats": 5,
+  "data": [
+    {
+      "matrix_size": 1024,
+      "num_chunks": 2,
+      "baseline_mean_ms": 18.24,
+      "baseline_std_ms": 0.37,
+      "pipeline_mean_ms": 20.3,
+      "pipeline_std_ms": 2.72,
+      "speedup": 0.898
+    },
+    {
+      "matrix_size": 1024,
+      "num_chunks": 4,
+      "baseline_mean_ms": 18.24,
+      "baseline_std_ms": 0.37,
+      "pipeline_mean_ms": 20.4,
+      "pipeline_std_ms": 0.33,
+      "speedup": 0.894
+    },
+    {
+      "matrix_size": 1024,
+      "num_chunks": 8,
+      "baseline_mean_ms": 18.24,
+      "baseline_std_ms": 0.37,
+      "pipeline_mean_ms": 22.28,
+      "pipeline_std_ms": 1.13,
+      "speedup": 0.819
+    },
+    {
+      "matrix_size": 1024,
+      "num_chunks": 16,
+      "baseline_mean_ms": 18.24,
+      "baseline_std_ms": 0.37,
+      "pipeline_mean_ms": 24.61,
+      "pipeline_std_ms": 0.29,
+      "speedup": 0.741
+    },
+    {
+      "matrix_size": 2048,
+      "num_chunks": 2,
+      "baseline_mean_ms": 73.02,
+      "baseline_std_ms": 7.53,
+      "pipeline_mean_ms": 72.65,
+      "pipeline_std_ms": 2.47,
+      "speedup": 1.005
+    },
+    {
+      "matrix_size": 2048,
+      "num_chunks": 4,
+      "baseline_mean_ms": 73.02,
+      "baseline_std_ms": 7.53,
+      "pipeline_mean_ms": 74.96,
+      "pipeline_std_ms": 2.22,
+      "speedup": 0.974
+    },
+    {
+      "matrix_size": 2048,
+      "num_chunks": 8,
+      "baseline_mean_ms": 73.02,
+      "baseline_std_ms": 7.53,
+      "pipeline_mean_ms": 74.38,
+      "pipeline_std_ms": 0.48,
+      "speedup": 0.982
+    },
+    {
+      "matrix_size": 2048,
+      "num_chunks": 16,
+      "baseline_mean_ms": 73.02,
+      "baseline_std_ms": 7.53,
+      "pipeline_mean_ms": 77.84,
+      "pipeline_std_ms": 0.21,
+      "speedup": 0.938
+    },
+    {
+      "matrix_size": 3072,
+      "num_chunks": 2,
+      "baseline_mean_ms": 200.17,
+      "baseline_std_ms": 1.31,
+      "pipeline_mean_ms": 178.74,
+      "pipeline_std_ms": 3.41,
+      "speedup": 1.12
+    },
+    {
+      "matrix_size": 3072,
+      "num_chunks": 4,
+      "baseline_mean_ms": 200.17,
+      "baseline_std_ms": 1.31,
+      "pipeline_mean_ms": 187.94,
+      "pipeline_std_ms": 0.63,
+      "speedup": 1.065
+    },
+    {
+      "matrix_size": 3072,
+      "num_chunks": 8,
+      "baseline_mean_ms": 200.17,
+      "baseline_std_ms": 1.31,
+      "pipeline_mean_ms": 189.44,
+      "pipeline_std_ms": 2.56,
+      "speedup": 1.057
+    },
+    {
+      "matrix_size": 3072,
+      "num_chunks": 16,
+      "baseline_mean_ms": 200.17,
+      "baseline_std_ms": 1.31,
+      "pipeline_mean_ms": 189.96,
+      "pipeline_std_ms": 2.6,
+      "speedup": 1.054
+    },
+    {
+      "matrix_size": 4096,
+      "num_chunks": 2,
+      "baseline_mean_ms": 363.5,
+      "baseline_std_ms": 12.01,
+      "pipeline_mean_ms": 307.6,
+      "pipeline_std_ms": 13.15,
+      "speedup": 1.182
+    },
+    {
+      "matrix_size": 4096,
+      "num_chunks": 4,
+      "baseline_mean_ms": 363.5,
+      "baseline_std_ms": 12.01,
+      "pipeline_mean_ms": 390.74,
+      "pipeline_std_ms": 13.04,
+      "speedup": 0.93
+    },
+    {
+      "matrix_size": 4096,
+      "num_chunks": 8,
+      "baseline_mean_ms": 363.5,
+      "baseline_std_ms": 12.01,
+      "pipeline_mean_ms": 402.56,
+      "pipeline_std_ms": 1.89,
+      "speedup": 0.903
+    },
+    {
+      "matrix_size": 4096,
+      "num_chunks": 16,
+      "baseline_mean_ms": 363.5,
+      "baseline_std_ms": 12.01,
+      "pipeline_mean_ms": 442.8,
+      "pipeline_std_ms": 11.72,
+      "speedup": 0.821
+    },
+    {
+      "matrix_size": 5120,
+      "num_chunks": 2,
+      "baseline_mean_ms": 748.09,
+      "baseline_std_ms": 68.87,
+      "pipeline_mean_ms": 775.69,
+      "pipeline_std_ms": 8.17,
+      "speedup": 0.964
+    },
+    {
+      "matrix_size": 5120,
+      "num_chunks": 4,
+      "baseline_mean_ms": 748.09,
+      "baseline_std_ms": 68.87,
+      "pipeline_mean_ms": 921.91,
+      "pipeline_std_ms": 36.67,
+      "speedup": 0.811
+    },
+    {
+      "matrix_size": 5120,
+      "num_chunks": 8,
+      "baseline_mean_ms": 748.09,
+      "baseline_std_ms": 68.87,
+      "pipeline_mean_ms": 485.46,
+      "pipeline_std_ms": 5.93,
+      "speedup": 1.541
+    },
+    {
+      "matrix_size": 5120,
+      "num_chunks": 16,
+      "baseline_mean_ms": 748.09,
+      "baseline_std_ms": 68.87,
+      "pipeline_mean_ms": 584.92,
+      "pipeline_std_ms": 34.05,
+      "speedup": 1.279
+    },
+    {
+      "matrix_size": 6144,
+      "num_chunks": 2,
+      "baseline_mean_ms": 824.27,
+      "baseline_std_ms": 6.48,
+      "pipeline_mean_ms": 1051.69,
+      "pipeline_std_ms": 126.69,
+      "speedup": 0.784
+    },
+    {
+      "matrix_size": 6144,
+      "num_chunks": 4,
+      "baseline_mean_ms": 824.27,
+      "baseline_std_ms": 6.48,
+      "pipeline_mean_ms": 863.89,
+      "pipeline_std_ms": 40.54,
+      "speedup": 0.954
+    },
+    {
+      "matrix_size": 6144,
+      "num_chunks": 8,
+      "baseline_mean_ms": 824.27,
+      "baseline_std_ms": 6.48,
+      "pipeline_mean_ms": 880.89,
+      "pipeline_std_ms": 43.86,
+      "speedup": 0.936
+    },
+    {
+      "matrix_size": 6144,
+      "num_chunks": 16,
+      "baseline_mean_ms": 824.27,
+      "baseline_std_ms": 6.48,
+      "pipeline_mean_ms": 718.8,
+      "pipeline_std_ms": 1.97,
+      "speedup": 1.147
+    },
+    {
+      "matrix_size": 8192,
+      "num_chunks": 2,
+      "baseline_mean_ms": 1742.18,
+      "baseline_std_ms": 9.04,
+      "pipeline_mean_ms": 2343.28,
+      "pipeline_std_ms": 174.63,
+      "speedup": 0.743
+    },
+    {
+      "matrix_size": 8192,
+      "num_chunks": 4,
+      "baseline_mean_ms": 1742.18,
+      "baseline_std_ms": 9.04,
+      "pipeline_mean_ms": 2028.58,
+      "pipeline_std_ms": 141.53,
+      "speedup": 0.859
+    },
+    {
+      "matrix_size": 8192,
+      "num_chunks": 8,
+      "baseline_mean_ms": 1742.18,
+      "baseline_std_ms": 9.04,
+      "pipeline_mean_ms": 1945.86,
+      "pipeline_std_ms": 145.2,
+      "speedup": 0.895
+    },
+    {
+      "matrix_size": 8192,
+      "num_chunks": 16,
+      "baseline_mean_ms": 1742.18,
+      "baseline_std_ms": 9.04,
+      "pipeline_mean_ms": 1279.19,
+      "pipeline_std_ms": 11.16,
+      "speedup": 1.362
+    },
+    {
+      "matrix_size": 10240,
+      "num_chunks": 2,
+      "baseline_mean_ms": 2793.71,
+      "baseline_std_ms": 47.07,
+      "pipeline_mean_ms": 3165.6,
+      "pipeline_std_ms": 59.57,
+      "speedup": 0.883
+    },
+    {
+      "matrix_size": 10240,
+      "num_chunks": 4,
+      "baseline_mean_ms": 2793.71,
+      "baseline_std_ms": 47.07,
+      "pipeline_mean_ms": 2672.44,
+      "pipeline_std_ms": 172.72,
+      "speedup": 1.045
+    },
+    {
+      "matrix_size": 10240,
+      "num_chunks": 8,
+      "baseline_mean_ms": 2793.71,
+      "baseline_std_ms": 47.07,
+      "pipeline_mean_ms": 1969.92,
+      "pipeline_std_ms": 27.71,
+      "speedup": 1.418
+    },
+    {
+      "matrix_size": 10240,
+      "num_chunks": 16,
+      "baseline_mean_ms": 2793.71,
+      "baseline_std_ms": 47.07,
+      "pipeline_mean_ms": 1974.16,
+      "pipeline_std_ms": 7.56,
+      "speedup": 1.415
+    }
+  ]
+}

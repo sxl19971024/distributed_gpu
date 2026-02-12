@@ -1,61 +1,17 @@
 #!/usr/bin/env python
 """
-distributed_gpu 安装脚本
+distributed_gpu 安装脚本 (向后兼容)
+
+所有项目元数据已统一至 pyproject.toml。
+此文件仅保留以兼容 `python setup.py install` / `pip install -e .` 等旧式调用。
+
+目标运行环境：
+  - CUDA 12.1  (NVIDIA Driver >= 530.30.02)
+  - OpenMPI 4.1.5 + mpi4py >= 3.1
+  - PyTorch >= 2.1.0 (含 CUDA 12.1 支持)
 """
 
-from setuptools import setup, find_packages
-import os
+from setuptools import setup
 
-# 安全读取 README
-here = os.path.abspath(os.path.dirname(__file__))
-long_description = ""
-readme_path = os.path.join(here, "README.md")
-if os.path.exists(readme_path):
-    with open(readme_path, "r", encoding="utf-8") as fh:
-        long_description = fh.read()
-
-setup(
-    name="distributed-gpu",
-    version="1.3.0",
-    author="孙小林",
-    author_email="1271364457@qq.com",
-    description="基于MPI的分布式GPU计算框架，支持大规模张量并行计算",
-    long_description=long_description,
-    long_description_content_type="text/markdown",
-    url="https://github.com/dstar/distributed_gpu",
-    packages=find_packages(exclude=["experiments*", "examples*", "docs*", "results*"]),
-    classifiers=[
-        "Development Status :: 4 - Beta",
-        "Intended Audience :: Science/Research",
-        "License :: OSI Approved :: MIT License",
-        "Operating System :: POSIX :: Linux",
-        "Programming Language :: Python :: 3",
-        "Programming Language :: Python :: 3.8",
-        "Programming Language :: Python :: 3.9",
-        "Programming Language :: Python :: 3.10",
-        "Programming Language :: Python :: 3.11",
-        "Programming Language :: Python :: 3.12",
-        "Topic :: Scientific/Engineering",
-        "Topic :: System :: Distributed Computing",
-    ],
-    python_requires=">=3.8",
-    install_requires=[
-        "torch>=2.2.0",
-        "mpi4py>=3.1.0",
-        "numpy>=1.21.0",
-        "opt-einsum>=3.3.0",
-    ],
-    extras_require={
-        "dev": [
-            "pytest>=7.0.0",
-            "pytest-mpi>=0.6",
-            "matplotlib>=3.5.0",
-        ],
-        "full": [
-            "cupy>=12.0.0",
-            "scipy>=1.9.0",
-            "psutil>=5.9.0",
-            "pyyaml>=6.0",
-        ],
-    },
-)
+# 所有配置项由 pyproject.toml 提供，此处仅做 fallback 触发
+setup()

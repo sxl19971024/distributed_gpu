@@ -1,0 +1,49 @@
+{
+  "experiment": "弱可扩展性(增强)",
+  "gpu_count": 4,
+  "K": 2048,
+  "N_col": 2048,
+  "repeats": 5,
+  "data": [
+    {
+      "per_gpu_rows": 1024,
+      "num_gpus": 4,
+      "total_M": 4096,
+      "single_gpu_mean_ms": 0.15,
+      "single_gpu_std_ms": 0.0,
+      "distributed_mean_ms": 0.93,
+      "distributed_std_ms": 0.08,
+      "weak_efficiency_pct": 16.2
+    },
+    {
+      "per_gpu_rows": 2048,
+      "num_gpus": 4,
+      "total_M": 8192,
+      "single_gpu_mean_ms": 0.27,
+      "single_gpu_std_ms": 0.0,
+      "distributed_mean_ms": 2.15,
+      "distributed_std_ms": 1.15,
+      "weak_efficiency_pct": 12.4
+    },
+    {
+      "per_gpu_rows": 3072,
+      "num_gpus": 4,
+      "total_M": 12288,
+      "single_gpu_mean_ms": 0.39,
+      "single_gpu_std_ms": 0.01,
+      "distributed_mean_ms": 1.84,
+      "distributed_std_ms": 0.01,
+      "weak_efficiency_pct": 21.4
+    },
+    {
+      "per_gpu_rows": 4096,
+      "num_gpus": 4,
+      "total_M": 16384,
+      "single_gpu_mean_ms": 0.56,
+      "single_gpu_std_ms": 0.01,
+      "distributed_mean_ms": 3.01,
+      "distributed_std_ms": 0.83,
+      "weak_efficiency_pct": 18.5
+    }
+  ]
+}

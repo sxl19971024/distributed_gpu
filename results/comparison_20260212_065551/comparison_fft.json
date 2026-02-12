@@ -1,0 +1,309 @@
+{
+  "experiment": "FFT2D跨框架对比",
+  "gpu_count": 3,
+  "single_gpu": [
+    {
+      "batch": 4,
+      "grid": 512,
+      "mean_ms": 0.03,
+      "std_ms": 0.0
+    },
+    {
+      "batch": 8,
+      "grid": 512,
+      "mean_ms": 0.04,
+      "std_ms": 0.0
+    },
+    {
+      "batch": 16,
+      "grid": 512,
+      "mean_ms": 0.06,
+      "std_ms": 0.0
+    },
+    {
+      "batch": 32,
+      "grid": 512,
+      "mean_ms": 0.15,
+      "std_ms": 0.0
+    },
+    {
+      "batch": 4,
+      "grid": 1024,
+      "mean_ms": 0.06,
+      "std_ms": 0.0
+    },
+    {
+      "batch": 8,
+      "grid": 1024,
+      "mean_ms": 0.17,
+      "std_ms": 0.0
+    },
+    {
+      "batch": 16,
+      "grid": 1024,
+      "mean_ms": 0.5,
+      "std_ms": 0.0
+    },
+    {
+      "batch": 32,
+      "grid": 1024,
+      "mean_ms": 1.0,
+      "std_ms": 0.0
+    },
+    {
+      "batch": 4,
+      "grid": 2048,
+      "mean_ms": 0.51,
+      "std_ms": 0.0
+    },
+    {
+      "batch": 8,
+      "grid": 2048,
+      "mean_ms": 1.01,
+      "std_ms": 0.0
+    },
+    {
+      "batch": 16,
+      "grid": 2048,
+      "mean_ms": 2.0,
+      "std_ms": 0.0
+    }
+  ],
+  "dask_cuda": [
+    {
+      "batch": 4,
+      "grid": 512,
+      "mean_ms": 106.3,
+      "std_ms": 3.8
+    },
+    {
+      "batch": 8,
+      "grid": 512,
+      "mean_ms": 149.0,
+      "std_ms": 3.23
+    },
+    {
+      "batch": 16,
+      "grid": 512,
+      "mean_ms": 174.03,
+      "std_ms": 9.33
+    },
+    {
+      "batch": 32,
+      "grid": 512,
+      "mean_ms": 277.47,
+      "std_ms": 12.9
+    },
+    {
+      "batch": 4,
+      "grid": 1024,
+      "mean_ms": 287.29,
+      "std_ms": 214.01
+    },
+    {
+      "batch": 8,
+      "grid": 1024,
+      "mean_ms": 468.98,
+      "std_ms": 142.86
+    },
+    {
+      "batch": 16,
+      "grid": 1024,
+      "mean_ms": 2351.32,
+      "std_ms": 1164.43
+    },
+    {
+      "batch": 32,
+      "grid": 1024,
+      "mean_ms": 3362.71,
+      "std_ms": 1595.13
+    },
+    {
+      "batch": 4,
+      "grid": 2048,
+      "mean_ms": 467.67,
+      "std_ms": 11.59
+    },
+    {
+      "batch": 8,
+      "grid": 2048,
+      "mean_ms": 1866.69,
+      "std_ms": 648.03
+    },
+    {
+      "batch": 16,
+      "grid": 2048,
+      "mean_ms": 5588.99,
+      "std_ms": 3235.6
+    }
+  ],
+  "distributed_gpu_framework": [
+    {
+      "batch": 4,
+      "grid": 512,
+      "mean_ms": 0.47,
+      "std_ms": 0.03
+    },
+    {
+      "batch": 8,
+      "grid": 512,
+      "mean_ms": 0.64,
+      "std_ms": 0.04
+    },
+    {
+      "batch": 16,
+      "grid": 512,
+      "mean_ms": 0.63,
+      "std_ms": 0.02
+    },
+    {
+      "batch": 32,
+      "grid": 512,
+      "mean_ms": 2.62,
+      "std_ms": 2.57
+    },
+    {
+      "batch": 4,
+      "grid": 1024,
+      "mean_ms": 0.64,
+      "std_ms": 0.05
+    },
+    {
+      "batch": 8,
+      "grid": 1024,
+      "mean_ms": 0.7,
+      "std_ms": 0.03
+    },
+    {
+      "batch": 16,
+      "grid": 1024,
+      "mean_ms": 3.12,
+      "std_ms": 2.61
+    },
+    {
+      "batch": 32,
+      "grid": 1024,
+      "mean_ms": 1.34,
+      "std_ms": 0.02
+    },
+    {
+      "batch": 4,
+      "grid": 2048,
+      "mean_ms": 0.98,
+      "std_ms": 0.08
+    },
+    {
+      "batch": 8,
+      "grid": 2048,
+      "mean_ms": 2.44,
+      "std_ms": 1.36
+    },
+    {
+      "batch": 16,
+      "grid": 2048,
+      "mean_ms": 2.34,
+      "std_ms": 0.04
+    }
+  ],
+  "comparison": [
+    {
+      "batch": 4,
+      "grid": 512,
+      "single_ms": 0.03,
+      "dask_ms": 106.3,
+      "ours_ms": 0.47,
+      "ours_vs_single": 0.064,
+      "dask_vs_single": 0.0
+    },
+    {
+      "batch": 8,
+      "grid": 512,
+      "single_ms": 0.04,
+      "dask_ms": 149.0,
+      "ours_ms": 0.64,
+      "ours_vs_single": 0.062,
+      "dask_vs_single": 0.0
+    },
+    {
+      "batch": 16,
+      "grid": 512,
+      "single_ms": 0.06,
+      "dask_ms": 174.03,
+      "ours_ms": 0.63,
+      "ours_vs_single": 0.095,
+      "dask_vs_single": 0.0
+    },
+    {
+      "batch": 32,
+      "grid": 512,
+      "single_ms": 0.15,
+      "dask_ms": 277.47,
+      "ours_ms": 2.62,
+      "ours_vs_single": 0.057,
+      "dask_vs_single": 0.001
+    },
+    {
+      "batch": 4,
+      "grid": 1024,
+      "single_ms": 0.06,
+      "dask_ms": 287.29,
+      "ours_ms": 0.64,
+      "ours_vs_single": 0.094,
+      "dask_vs_single": 0.0
+    },
+    {
+      "batch": 8,
+      "grid": 1024,
+      "single_ms": 0.17,
+      "dask_ms": 468.98,
+      "ours_ms": 0.7,
+      "ours_vs_single": 0.243,
+      "dask_vs_single": 0.0
+    },
+    {
+      "batch": 16,
+      "grid": 1024,
+      "single_ms": 0.5,
+      "dask_ms": 2351.32,
+      "ours_ms": 3.12,
+      "ours_vs_single": 0.16,
+      "dask_vs_single": 0.0
+    },
+    {
+      "batch": 32,
+      "grid": 1024,
+      "single_ms": 1.0,
+      "dask_ms": 3362.71,
+      "ours_ms": 1.34,
+      "ours_vs_single": 0.746,
+      "dask_vs_single": 0.0
+    },
+    {
+      "batch": 4,
+      "grid": 2048,
+      "single_ms": 0.51,
+      "dask_ms": 467.67,
+      "ours_ms": 0.98,
+      "ours_vs_single": 0.52,
+      "dask_vs_single": 0.001
+    },
+    {
+      "batch": 8,
+      "grid": 2048,
+      "single_ms": 1.01,
+      "dask_ms": 1866.69,
+      "ours_ms": 2.44,
+      "ours_vs_single": 0.414,
+      "dask_vs_single": 0.001
+    },
+    {
+      "batch": 16,
+      "grid": 2048,
+      "single_ms": 2.0,
+      "dask_ms": 5588.99,
+      "ours_ms": 2.34,
+      "ours_vs_single": 0.855,
+      "dask_vs_single": 0.0
+    }
+  ]
+}

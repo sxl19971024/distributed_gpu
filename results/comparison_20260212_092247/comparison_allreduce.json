@@ -1,0 +1,249 @@
+{
+  "experiment": "AllReduce跨框架对比",
+  "gpu_count": 3,
+  "torch_distributed_nccl": [
+    {
+      "size_mb": 1,
+      "mean_ms": 0.262,
+      "std_ms": 0.036
+    },
+    {
+      "size_mb": 2,
+      "mean_ms": 0.332,
+      "std_ms": 0.068
+    },
+    {
+      "size_mb": 4,
+      "mean_ms": 0.415,
+      "std_ms": 0.011
+    },
+    {
+      "size_mb": 8,
+      "mean_ms": 0.676,
+      "std_ms": 0.021
+    },
+    {
+      "size_mb": 16,
+      "mean_ms": 1.196,
+      "std_ms": 0.154
+    },
+    {
+      "size_mb": 32,
+      "mean_ms": 2.115,
+      "std_ms": 0.018
+    },
+    {
+      "size_mb": 64,
+      "mean_ms": 4.111,
+      "std_ms": 0.029
+    },
+    {
+      "size_mb": 128,
+      "mean_ms": 8.099,
+      "std_ms": 0.013
+    },
+    {
+      "size_mb": 256,
+      "mean_ms": 16.074,
+      "std_ms": 0.014
+    },
+    {
+      "size_mb": 512,
+      "mean_ms": 32.154,
+      "std_ms": 0.134
+    },
+    {
+      "size_mb": 1024,
+      "mean_ms": 63.797,
+      "std_ms": 0.075
+    },
+    {
+      "size_mb": 2048,
+      "mean_ms": 127.668,
+      "std_ms": 0.259
+    },
+    {
+      "size_mb": 4096,
+      "mean_ms": 255.028,
+      "std_ms": 0.206
+    },
+    {
+      "size_mb": 8192,
+      "mean_ms": 509.025,
+      "std_ms": 0.144
+    }
+  ],
+  "distributed_gpu_framework": [
+    {
+      "size_mb": 1,
+      "mean_ms": 0.975,
+      "std_ms": 0.033
+    },
+    {
+      "size_mb": 2,
+      "mean_ms": 1.835,
+      "std_ms": 0.053
+    },
+    {
+      "size_mb": 4,
+      "mean_ms": 3.698,
+      "std_ms": 0.104
+    },
+    {
+      "size_mb": 8,
+      "mean_ms": 7.471,
+      "std_ms": 0.265
+    },
+    {
+      "size_mb": 16,
+      "mean_ms": 16.485,
+      "std_ms": 0.478
+    },
+    {
+      "size_mb": 32,
+      "mean_ms": 40.561,
+      "std_ms": 1.071
+    },
+    {
+      "size_mb": 64,
+      "mean_ms": 75.384,
+      "std_ms": 2.74
+    },
+    {
+      "size_mb": 128,
+      "mean_ms": 135.973,
+      "std_ms": 3.245
+    },
+    {
+      "size_mb": 256,
+      "mean_ms": 391.019,
+      "std_ms": 7.182
+    },
+    {
+      "size_mb": 512,
+      "mean_ms": 799.722,
+      "std_ms": 13.279
+    },
+    {
+      "size_mb": 1024,
+      "mean_ms": 3218.251,
+      "std_ms": 178.199
+    },
+    {
+      "size_mb": 2048,
+      "mean_ms": 5281.506,
+      "std_ms": 393.592
+    },
+    {
+      "size_mb": 4096,
+      "mean_ms": 10157.737,
+      "std_ms": 1216.788
+    }
+  ],
+  "comparison": [
+    {
+      "size_mb": 1,
+      "nccl_ms": 0.262,
+      "ours_ms": 0.975,
+      "ours_div_nccl": 3.72,
+      "nccl_bw_gbps": 3.82,
+      "ours_bw_gbps": 1.03
+    },
+    {
+      "size_mb": 2,
+      "nccl_ms": 0.332,
+      "ours_ms": 1.835,
+      "ours_div_nccl": 5.53,
+      "nccl_bw_gbps": 6.02,
+      "ours_bw_gbps": 1.09
+    },
+    {
+      "size_mb": 4,
+      "nccl_ms": 0.415,
+      "ours_ms": 3.698,
+      "ours_div_nccl": 8.91,
+      "nccl_bw_gbps": 9.64,
+      "ours_bw_gbps": 1.08
+    },
+    {
+      "size_mb": 8,
+      "nccl_ms": 0.676,
+      "ours_ms": 7.471,
+      "ours_div_nccl": 11.05,
+      "nccl_bw_gbps": 11.83,
+      "ours_bw_gbps": 1.07
+    },
+    {
+      "size_mb": 16,
+      "nccl_ms": 1.196,
+      "ours_ms": 16.485,
+      "ours_div_nccl": 13.78,
+      "nccl_bw_gbps": 13.38,
+      "ours_bw_gbps": 0.97
+    },
+    {
+      "size_mb": 32,
+      "nccl_ms": 2.115,
+      "ours_ms": 40.561,
+      "ours_div_nccl": 19.18,
+      "nccl_bw_gbps": 15.13,
+      "ours_bw_gbps": 0.79
+    },
+    {
+      "size_mb": 64,
+      "nccl_ms": 4.111,
+      "ours_ms": 75.384,
+      "ours_div_nccl": 18.34,
+      "nccl_bw_gbps": 15.57,
+      "ours_bw_gbps": 0.85
+    },
+    {
+      "size_mb": 128,
+      "nccl_ms": 8.099,
+      "ours_ms": 135.973,
+      "ours_div_nccl": 16.79,
+      "nccl_bw_gbps": 15.8,
+      "ours_bw_gbps": 0.94
+    },
+    {
+      "size_mb": 256,
+      "nccl_ms": 16.074,
+      "ours_ms": 391.019,
+      "ours_div_nccl": 24.33,
+      "nccl_bw_gbps": 15.93,
+      "ours_bw_gbps": 0.65
+    },
+    {
+      "size_mb": 512,
+      "nccl_ms": 32.154,
+      "ours_ms": 799.722,
+      "ours_div_nccl": 24.87,
+      "nccl_bw_gbps": 15.92,
+      "ours_bw_gbps": 0.64
+    },
+    {
+      "size_mb": 1024,
+      "nccl_ms": 63.797,
+      "ours_ms": 3218.251,
+      "ours_div_nccl": 50.45,
+      "nccl_bw_gbps": 16.05,
+      "ours_bw_gbps": 0.32
+    },
+    {
+      "size_mb": 2048,
+      "nccl_ms": 127.668,
+      "ours_ms": 5281.506,
+      "ours_div_nccl": 41.37,
+      "nccl_bw_gbps": 16.04,
+      "ours_bw_gbps": 0.39
+    },
+    {
+      "size_mb": 4096,
+      "nccl_ms": 255.028,
+      "ours_ms": 10157.737,
+      "ours_div_nccl": 39.83,
+      "nccl_bw_gbps": 16.06,
+      "ours_bw_gbps": 0.4
+    }
+  ]
+}

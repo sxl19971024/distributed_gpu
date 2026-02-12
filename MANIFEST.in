@@ -1,10 +1,12 @@
 include LICENSE
 include README.md
+include INSTALL.md
 include requirements.txt
 include requirements-optional.txt
 include pyproject.toml
+include setup.py
 
-recursive-include distributed_gpu *.py
+recursive-include distributed_gpu *.py py.typed
 recursive-exclude experiments *
 recursive-exclude examples *
 recursive-exclude results *

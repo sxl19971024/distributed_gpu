@@ -1,0 +1,78 @@
+{
+  "experiment": "AllReduce跨框架对比",
+  "gpu_count": 3,
+  "torch_distributed_nccl": [
+    {
+      "size_mb": 1,
+      "mean_ms": 0.239,
+      "std_ms": 0.024
+    },
+    {
+      "size_mb": 2,
+      "mean_ms": 0.289,
+      "std_ms": 0.008
+    },
+    {
+      "size_mb": 4,
+      "mean_ms": 0.425,
+      "std_ms": 0.023
+    },
+    {
+      "size_mb": 8,
+      "mean_ms": 0.821,
+      "std_ms": 0.407
+    },
+    {
+      "size_mb": 16,
+      "mean_ms": 1.129,
+      "std_ms": 0.005
+    },
+    {
+      "size_mb": 32,
+      "mean_ms": 2.099,
+      "std_ms": 0.017
+    },
+    {
+      "size_mb": 64,
+      "mean_ms": 4.105,
+      "std_ms": 0.017
+    },
+    {
+      "size_mb": 128,
+      "mean_ms": 8.096,
+      "std_ms": 0.021
+    },
+    {
+      "size_mb": 256,
+      "mean_ms": 16.101,
+      "std_ms": 0.112
+    },
+    {
+      "size_mb": 512,
+      "mean_ms": 32.358,
+      "std_ms": 0.773
+    },
+    {
+      "size_mb": 1024,
+      "mean_ms": 63.846,
+      "std_ms": 0.056
+    },
+    {
+      "size_mb": 2048,
+      "mean_ms": 127.691,
+      "std_ms": 0.087
+    },
+    {
+      "size_mb": 4096,
+      "mean_ms": 255.105,
+      "std_ms": 0.113
+    },
+    {
+      "size_mb": 8192,
+      "mean_ms": 509.498,
+      "std_ms": 0.309
+    }
+  ],
+  "distributed_gpu_framework": [],
+  "comparison": []
+}

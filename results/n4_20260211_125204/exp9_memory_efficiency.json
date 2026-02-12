@@ -1,0 +1,106 @@
+{
+  "experiment": "内存效率分析",
+  "gpu_count": 4,
+  "repeats": 3,
+  "data": [
+    {
+      "matrix_size": 1024,
+      "theory_full_gb": 0.012,
+      "theory_distributed_gb": 0.006,
+      "single_gpu_peak_gb": 0.02,
+      "distributed_peak_gb": 0.02,
+      "total_gpu_mem_gb": 31.4,
+      "single_utilization_pct": 0.1,
+      "dist_utilization_pct": 0.1,
+      "memory_saving_pct": 0.0
+    },
+    {
+      "matrix_size": 2048,
+      "theory_full_gb": 0.047,
+      "theory_distributed_gb": 0.023,
+      "single_gpu_peak_gb": 0.055,
+      "distributed_peak_gb": 0.055,
+      "total_gpu_mem_gb": 31.4,
+      "single_utilization_pct": 0.2,
+      "dist_utilization_pct": 0.2,
+      "memory_saving_pct": 0.0
+    },
+    {
+      "matrix_size": 3072,
+      "theory_full_gb": 0.105,
+      "theory_distributed_gb": 0.053,
+      "single_gpu_peak_gb": 0.114,
+      "distributed_peak_gb": 0.114,
+      "total_gpu_mem_gb": 31.4,
+      "single_utilization_pct": 0.4,
+      "dist_utilization_pct": 0.4,
+      "memory_saving_pct": 0.0
+    },
+    {
+      "matrix_size": 4096,
+      "theory_full_gb": 0.188,
+      "theory_distributed_gb": 0.094,
+      "single_gpu_peak_gb": 0.196,
+      "distributed_peak_gb": 0.196,
+      "total_gpu_mem_gb": 31.4,
+      "single_utilization_pct": 0.6,
+      "dist_utilization_pct": 0.6,
+      "memory_saving_pct": 0.0
+    },
+    {
+      "matrix_size": 5120,
+      "theory_full_gb": 0.293,
+      "theory_distributed_gb": 0.146,
+      "single_gpu_peak_gb": 0.301,
+      "distributed_peak_gb": 0.301,
+      "total_gpu_mem_gb": 31.4,
+      "single_utilization_pct": 1.0,
+      "dist_utilization_pct": 1.0,
+      "memory_saving_pct": 0.0
+    },
+    {
+      "matrix_size": 6144,
+      "theory_full_gb": 0.422,
+      "theory_distributed_gb": 0.211,
+      "single_gpu_peak_gb": 0.43,
+      "distributed_peak_gb": 0.43,
+      "total_gpu_mem_gb": 31.4,
+      "single_utilization_pct": 1.4,
+      "dist_utilization_pct": 1.4,
+      "memory_saving_pct": 0.0
+    },
+    {
+      "matrix_size": 8192,
+      "theory_full_gb": 0.75,
+      "theory_distributed_gb": 0.375,
+      "single_gpu_peak_gb": 0.758,
+      "distributed_peak_gb": 0.758,
+      "total_gpu_mem_gb": 31.4,
+      "single_utilization_pct": 2.4,
+      "dist_utilization_pct": 2.4,
+      "memory_saving_pct": 0.0
+    },
+    {
+      "matrix_size": 10240,
+      "theory_full_gb": 1.172,
+      "theory_distributed_gb": 0.586,
+      "single_gpu_peak_gb": 1.18,
+      "distributed_peak_gb": 1.18,
+      "total_gpu_mem_gb": 31.4,
+      "single_utilization_pct": 3.8,
+      "dist_utilization_pct": 3.8,
+      "memory_saving_pct": 0.0
+    },
+    {
+      "matrix_size": 12288,
+      "theory_full_gb": 1.688,
+      "theory_distributed_gb": 0.844,
+      "single_gpu_peak_gb": 1.696,
+      "distributed_peak_gb": 1.696,
+      "total_gpu_mem_gb": 31.4,
+      "single_utilization_pct": 5.4,
+      "dist_utilization_pct": 5.4,
+      "memory_saving_pct": 0.0
+    }
+  ]
+}

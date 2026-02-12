@@ -1,0 +1,75 @@
+# ============================================
+# 跨框架对比实验依赖
+# ============================================
+#
+# 本文件包含运行 experiments/benchmark_comparison.py
+# 所需的全部额外依赖。
+#
+# ==================== 安装步骤 ====================
+#
+# 方式一：一键安装（推荐）
+# ──────────────────────────────────────────
+#   # 1. 确保已安装核心依赖
+#   pip install -r requirements.txt
+#
+#   # 2. 安装 PETSc (petsc4py) — 必须用 conda
+#   conda install -c conda-forge petsc4py -y
+#
+#   # 3. 安装其余对比依赖
+#   pip install -r requirements-comparison.txt
+#
+# 方式二：分步安装
+# ──────────────────────────────────────────
+#   # PyTorch Distributed — 已随 PyTorch 自带, 无需额外安装
+#   #   验证: python -c "import torch; print(torch.distributed.is_nccl_available())"
+#
+#   # PETSc (petsc4py) — Python 版 PETSc 科学计算库
+#   conda install -c conda-forge petsc4py -y
+#   #   验证: python -c "import petsc4py; print(petsc4py.__version__)"
+#   #   注意: pip install petsc4py 需要本地编译 PETSc C 库, 容易失败
+#   #         conda 提供预编译包, 推荐使用
+#
+#   # Dask-CUDA — Dask 的 GPU 扩展
+#   pip install dask-cuda
+#   #   验证: python -c "import dask_cuda; print(dask_cuda.__version__)"
+#
+#   # CuPy — GPU 加速 NumPy (Dask-CUDA 的底层依赖)
+#   pip install cupy-cuda12x
+#   #   验证: python -c "import cupy; print(cupy.__version__)"
+#
+# ==================== 对比框架说明 ====================
+#
+# 1. PyTorch Distributed (NCCL)
+#    - 用途: GPU-GPU 直通通信基线 (对比通信层效率)
+#    - 来源: PyTorch 内置, 无需额外安装
+#    - 通信层: NCCL (NVIDIA Collective Communications Library)
+#
+# 2. PETSc (petsc4py)
+#    - 用途: 科学计算金标准 (对比 Stencil/Jacobi/PDE 求解)
+#    - 来源: Argonne National Lab
+#    - 特点: C 实现 + Python 绑定, 支持 MPI 分布式
+#    - 官网: https://petsc.org/
+#
+# 3. Dask-CUDA + CuPy
+#    - 用途: Python 通用分布式 GPU 计算框架 (对比 FFT/矩阵运算)
+#    - 来源: RAPIDS (NVIDIA)
+#    - 特点: 惰性计算, 任务图调度, 多 GPU 支持
+#    - 官网: https://docs.rapids.ai/api/dask-cuda/
+#
+# ==================== pip 依赖 ====================
+
+# Dask-CUDA (含 dask, distributed 等依赖)
+dask-cuda>=24.0
+
+# CuPy (GPU NumPy, 选择匹配的 CUDA 版本)
+cupy-cuda12x>=12.0.0
+
+# NumPy (已在 requirements.txt 中, 此处确保版本)
+numpy>=1.21.0
+
+# ==================== conda 依赖 (不在 pip 中) ====================
+# 以下需要单独用 conda 安装:
+#
+#   conda install -c conda-forge petsc4py -y
+#
+# ============================================

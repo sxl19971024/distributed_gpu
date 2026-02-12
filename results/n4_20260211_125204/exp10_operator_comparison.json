@@ -1,0 +1,43 @@
+{
+  "experiment": "多算子综合对比",
+  "gpu_count": 4,
+  "repeats": 3,
+  "data": {
+    "operators": [
+      {
+        "name": "MatMul",
+        "speedup": 0.833
+      },
+      {
+        "name": "MixedPrec",
+        "speedup": 0.855
+      },
+      {
+        "name": "Add",
+        "speedup": 0.077
+      },
+      {
+        "name": "Sum",
+        "speedup": 0.062
+      },
+      {
+        "name": "FFT2D",
+        "speedup": 0.1
+      },
+      {
+        "name": "Conv2D",
+        "speedup": 0.321
+      },
+      {
+        "name": "Einsum",
+        "speedup": 0.198
+      },
+      {
+        "name": "Stencil",
+        "speedup": 0.66
+      }
+    ],
+    "matrix_size": 4096,
+    "gpu_count": 4
+  }
+}

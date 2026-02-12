@@ -110,66 +110,286 @@ def check_gpu_mem(mpi, required_gb=2.0):
 #  实验 1: 不同矩阵规模的计算性能 (增强版)
 # ==============================================================
 def exp1_compute_performance(mpi, distributor):
-    """不同矩阵规模下分布式matmul vs 单GPU的性能对比 — 12个规模点, 5次重复"""
-    from distributed_gpu.algorithms.matrix_ops import distributed_matmul
+    """多算子多规模计算性能对比 — 8种算子, 多规模点, 5次重复"""
+    import torch.nn.functional as F
+    from distributed_gpu.algorithms.matrix_ops import (
+        distributed_matmul, distributed_matmul_mixed_precision, distributed_add,
+    )
+    from distributed_gpu.algorithms.fft import distributed_fft2d
+    from distributed_gpu.algorithms.convolution import distributed_conv2d
+    from distributed_gpu.algorithms.einsum import distributed_einsum
+    from distributed_gpu.algorithms.reduction import distributed_sum
+    from distributed_gpu.algorithms.stencil import distributed_stencil_2d
 
-    sizes = [512, 1024, 2048, 3072, 4096, 5120, 6144, 7168, 8192, 10240, 12288, 14336]
-    results = {"experiment": "计算性能对比(增强)", "gpu_count": mpi.get_size(),
-               "repeats": 5, "data": []}
+    gpu_id = mpi.get_gpu_id()
+    dev = f'cuda:{gpu_id}'
+    results = {"experiment": "多算子计算性能对比(增强)", "gpu_count": mpi.get_size(),
+               "repeats": 5, "data": {}}
 
-    warm_up_gpu(mpi.get_gpu_id())
+    warm_up_gpu(gpu_id)
 
-    for N in sizes:
-        # 估算显存需求 (A + B + C) * float32
+    # ─── 1) MatMul ────────────────────────────────────────────
+    mpi.print_master("\n  ── 算子: MatMul ──")
+    matmul_sizes = [512, 1024, 2048, 3072, 4096, 5120, 6144, 7168, 8192, 10240, 12288, 14336]
+    matmul_data = []
+    for N in matmul_sizes:
         mem_gb = 3 * N * N * 4 / 1024**3
         if not check_gpu_mem(mpi, required_gb=mem_gb + 2.0):
             continue
-
-        mpi.print_master(f"  矩阵规模: {N}x{N} (预估显存 {mem_gb:.1f}GB)")
-
+        mpi.print_master(f"    MatMul {N}x{N}")
         if mpi.is_master_process():
-            A = torch.randn(N, N, device=f'cuda:{mpi.get_gpu_id()}')
-            B = torch.randn(N, N, device=f'cuda:{mpi.get_gpu_id()}')
+            A = torch.randn(N, N, device=dev)
+            B = torch.randn(N, N, device=dev)
         else:
             A = B = None
-
-        # 单GPU计时 (仅master)
         single_mean = single_std = 0
         if mpi.is_master_process():
-            def single_fn():
-                torch.matmul(A, B)
-            single_mean, single_std, _ = benchmark_fn(single_fn, repeats=5, warmup=2)
-
-        # 分布式计时
-        dist_mean, dist_std, dist_times = dist_benchmark(
-            lambda: distributed_matmul(A, B, mpi, distributor),
-            mpi, repeats=5, warmup=2
-        )
-
+            single_mean, single_std, _ = benchmark_fn(lambda: torch.matmul(A, B), repeats=5, warmup=2)
+        dist_mean, dist_std, _ = dist_benchmark(
+            lambda: distributed_matmul(A, B, mpi, distributor), mpi, repeats=5, warmup=2)
         if mpi.is_master_process():
-            speedup = single_mean / dist_mean if dist_mean > 0 else 0
-            efficiency = speedup / mpi.get_size() * 100
-            gflops = 2 * N**3 / (dist_mean / 1000) / 1e9 if dist_mean > 0 else 0
-
-            results["data"].append({
-                "matrix_size": N,
-                "single_gpu_mean_ms": round(single_mean, 2),
-                "single_gpu_std_ms": round(single_std, 2),
-                "distributed_mean_ms": round(dist_mean, 2),
-                "distributed_std_ms": round(dist_std, 2),
-                "speedup": round(speedup, 3),
-                "efficiency_pct": round(efficiency, 1),
-                "distributed_gflops": round(gflops, 1),
-                "all_dist_times": [round(t, 2) for t in dist_times],
-            })
-            print(f"    单GPU: {single_mean:.2f}±{single_std:.2f}ms, "
-                  f"分布式: {dist_mean:.2f}±{dist_std:.2f}ms, "
-                  f"加速比: {speedup:.2f}x, 效率: {efficiency:.1f}%, GFLOPS: {gflops:.0f}")
-
-        if mpi.is_master_process():
+            sp = single_mean / dist_mean if dist_mean > 0 else 0
+            matmul_data.append({"size": N, "data_gb": round(mem_gb, 3),
+                                "single_ms": round(single_mean, 2), "dist_ms": round(dist_mean, 2),
+                                "speedup": round(sp, 3)})
+            print(f"      单GPU: {single_mean:.2f}ms  分布式: {dist_mean:.2f}ms  加速比: {sp:.3f}x")
             del A, B
-        clean_gpu()
-        mpi.barrier()
+        clean_gpu(); mpi.barrier()
+    results["data"]["matmul"] = matmul_data
+
+    # ─── 2) Mixed Precision MatMul ────────────────────────────
+    mpi.print_master("\n  ── 算子: MixedPrecision MatMul ──")
+    mp_sizes = [1024, 2048, 4096, 6144, 8192, 10240, 12288]
+    mp_data = []
+    for N in mp_sizes:
+        mem_gb = 3 * N * N * 4 / 1024**3
+        if not check_gpu_mem(mpi, required_gb=mem_gb + 2.0):
+            continue
+        mpi.print_master(f"    MixedPrec {N}x{N}")
+        if mpi.is_master_process():
+            A = torch.randn(N, N, device=dev)
+            B = torch.randn(N, N, device=dev)
+        else:
+            A = B = None
+        single_mean = single_std = 0
+        if mpi.is_master_process():
+            single_mean, single_std, _ = benchmark_fn(lambda: torch.matmul(A, B), repeats=5, warmup=2)
+        dist_mean, dist_std, _ = dist_benchmark(
+            lambda: distributed_matmul_mixed_precision(A, B, mpi, distributor), mpi, repeats=5, warmup=2)
+        if mpi.is_master_process():
+            sp = single_mean / dist_mean if dist_mean > 0 else 0
+            mp_data.append({"size": N, "data_gb": round(mem_gb, 3),
+                            "single_ms": round(single_mean, 2), "dist_ms": round(dist_mean, 2),
+                            "speedup": round(sp, 3)})
+            print(f"      单GPU: {single_mean:.2f}ms  分布式: {dist_mean:.2f}ms  加速比: {sp:.3f}x")
+            del A, B
+        clean_gpu(); mpi.barrier()
+    results["data"]["mixed_precision_matmul"] = mp_data
+
+    # ─── 3) Add ───────────────────────────────────────────────
+    mpi.print_master("\n  ── 算子: Add ──")
+    add_sizes = [1024, 2048, 4096, 6144, 8192, 10240, 12288, 16384]
+    add_data = []
+    for N in add_sizes:
+        mem_gb = 3 * N * N * 4 / 1024**3
+        if not check_gpu_mem(mpi, required_gb=mem_gb + 2.0):
+            continue
+        mpi.print_master(f"    Add {N}x{N}")
+        if mpi.is_master_process():
+            A = torch.randn(N, N, device=dev)
+            B = torch.randn(N, N, device=dev)
+        else:
+            A = B = None
+        single_mean = 0
+        if mpi.is_master_process():
+            single_mean, _, _ = benchmark_fn(lambda: torch.add(A, B), repeats=5, warmup=2)
+        dist_mean, _, _ = dist_benchmark(
+            lambda: distributed_add(A, B, mpi, distributor), mpi, repeats=5, warmup=2)
+        if mpi.is_master_process():
+            sp = single_mean / dist_mean if dist_mean > 0 else 0
+            add_data.append({"size": N, "data_gb": round(mem_gb, 3),
+                             "single_ms": round(single_mean, 2), "dist_ms": round(dist_mean, 2),
+                             "speedup": round(sp, 3)})
+            print(f"      单GPU: {single_mean:.2f}ms  分布式: {dist_mean:.2f}ms  加速比: {sp:.3f}x")
+            del A, B
+        clean_gpu(); mpi.barrier()
+    results["data"]["add"] = add_data
+
+    # ─── 4) Sum (Reduction) ───────────────────────────────────
+    mpi.print_master("\n  ── 算子: Sum ──")
+    sum_sizes = [1024, 2048, 4096, 8192, 10240, 12288, 16384, 20480]
+    sum_data = []
+    for N in sum_sizes:
+        mem_gb = N * N * 4 / 1024**3
+        if not check_gpu_mem(mpi, required_gb=mem_gb + 2.0):
+            continue
+        mpi.print_master(f"    Sum {N}x{N}")
+        if mpi.is_master_process():
+            data = torch.randn(N, N, device=dev)
+        else:
+            data = None
+        single_mean = 0
+        if mpi.is_master_process():
+            single_mean, _, _ = benchmark_fn(lambda: torch.sum(data), repeats=5, warmup=2)
+        dist_mean, _, _ = dist_benchmark(
+            lambda: distributed_sum(data, mpi, distributor), mpi, repeats=5, warmup=2)
+        if mpi.is_master_process():
+            sp = single_mean / dist_mean if dist_mean > 0 else 0
+            sum_data.append({"size": N, "data_gb": round(mem_gb, 3),
+                             "single_ms": round(single_mean, 2), "dist_ms": round(dist_mean, 2),
+                             "speedup": round(sp, 3)})
+            print(f"      单GPU: {single_mean:.2f}ms  分布式: {dist_mean:.2f}ms  加速比: {sp:.3f}x")
+            del data
+        clean_gpu(); mpi.barrier()
+    results["data"]["sum"] = sum_data
+
+    # ─── 5) FFT2D ─────────────────────────────────────────────
+    mpi.print_master("\n  ── 算子: FFT2D ──")
+    fft_configs = [
+        (4, 256), (8, 256), (16, 256), (32, 256),
+        (4, 512), (8, 512), (16, 512), (32, 512),
+        (4, 1024), (8, 1024), (16, 1024),
+        (4, 2048), (8, 2048),
+    ]
+    fft_data = []
+    for batch, grid in fft_configs:
+        mem_gb = batch * grid * grid * 4 / 1024**3
+        if not check_gpu_mem(mpi, required_gb=mem_gb * 3 + 2.0):
+            continue
+        mpi.print_master(f"    FFT2D batch={batch} grid={grid}x{grid}")
+        if mpi.is_master_process():
+            data = torch.randn(batch, grid, grid, device=dev)
+        else:
+            data = None
+        single_mean = 0
+        if mpi.is_master_process():
+            single_mean, _, _ = benchmark_fn(lambda: torch.fft.fft2(data), repeats=5, warmup=2)
+        dist_mean, _, _ = dist_benchmark(
+            lambda: distributed_fft2d(data, mpi, distributor), mpi, repeats=5, warmup=2)
+        if mpi.is_master_process():
+            sp = single_mean / dist_mean if dist_mean > 0 else 0
+            fft_data.append({"batch": batch, "grid": grid, "data_gb": round(mem_gb, 3),
+                             "single_ms": round(single_mean, 2), "dist_ms": round(dist_mean, 2),
+                             "speedup": round(sp, 3)})
+            print(f"      单GPU: {single_mean:.2f}ms  分布式: {dist_mean:.2f}ms  加速比: {sp:.3f}x")
+            del data
+        clean_gpu(); mpi.barrier()
+    results["data"]["fft2d"] = fft_data
+
+    # ─── 6) Conv2D ────────────────────────────────────────────
+    mpi.print_master("\n  ── 算子: Conv2D ──")
+    conv_configs = [
+        # (batch, in_ch, out_ch, spatial, label)
+        (8,   64, 128, 56, "B8"),
+        (16,  64, 128, 56, "B16"),
+        (32,  64, 128, 56, "B32"),
+        (64,  64, 128, 56, "B64"),
+        (128, 64, 128, 56, "B128"),
+        (256, 64, 128, 56, "B256"),
+        (32,  128, 256, 28, "deep-B32"),
+        (64,  128, 256, 28, "deep-B64"),
+        (128, 128, 256, 28, "deep-B128"),
+        (256, 128, 256, 28, "deep-B256"),
+    ]
+    conv_data = []
+    for bs, ic, oc, sp, label in conv_configs:
+        mem_gb = (bs * ic * sp * sp + oc * ic * 3 * 3 + bs * oc * sp * sp) * 4 / 1024**3
+        if not check_gpu_mem(mpi, required_gb=mem_gb + 2.0):
+            continue
+        mpi.print_master(f"    Conv2D {label} [{bs},{ic},{sp},{sp}] -> [{oc}]")
+        if mpi.is_master_process():
+            inp = torch.randn(bs, ic, sp, sp, device=dev)
+            weight = torch.randn(oc, ic, 3, 3, device=dev)
+            bias = torch.randn(oc, device=dev)
+        else:
+            inp = weight = bias = None
+        single_mean = 0
+        if mpi.is_master_process():
+            single_mean, _, _ = benchmark_fn(
+                lambda: F.conv2d(inp, weight, bias, padding=(1, 1)), repeats=5, warmup=2)
+        dist_mean, _, _ = dist_benchmark(
+            lambda: distributed_conv2d(inp, weight, mpi, distributor,
+                                       bias=bias, padding=(1, 1)), mpi, repeats=5, warmup=2)
+        if mpi.is_master_process():
+            sp_ratio = single_mean / dist_mean if dist_mean > 0 else 0
+            conv_data.append({"label": label, "batch": bs, "in_ch": ic, "out_ch": oc,
+                              "spatial": sp, "data_gb": round(mem_gb, 3),
+                              "single_ms": round(single_mean, 2), "dist_ms": round(dist_mean, 2),
+                              "speedup": round(sp_ratio, 3)})
+            print(f"      单GPU: {single_mean:.2f}ms  分布式: {dist_mean:.2f}ms  加速比: {sp_ratio:.3f}x")
+            del inp, weight, bias
+        clean_gpu(); mpi.barrier()
+    results["data"]["conv2d"] = conv_data
+
+    # ─── 7) Einsum (矩阵乘法形式) ─────────────────────────────
+    mpi.print_master("\n  ── 算子: Einsum (ij,jk->ik) ──")
+    ein_sizes = [1024, 2048, 3072, 4096, 6144, 8192, 10240]
+    ein_data = []
+    for N in ein_sizes:
+        mem_gb = 3 * N * N * 4 / 1024**3
+        if not check_gpu_mem(mpi, required_gb=mem_gb + 2.0):
+            continue
+        mpi.print_master(f"    Einsum {N}x{N}")
+        if mpi.is_master_process():
+            A = torch.randn(N, N, device=dev)
+            B = torch.randn(N, N, device=dev)
+        else:
+            A = B = None
+        single_mean = 0
+        if mpi.is_master_process():
+            single_mean, _, _ = benchmark_fn(lambda: torch.einsum('ij,jk->ik', A, B), repeats=5, warmup=2)
+        dist_mean, _, _ = dist_benchmark(
+            lambda: distributed_einsum('ij,jk->ik', A, B, mpi=mpi, distributor=distributor),
+            mpi, repeats=5, warmup=2)
+        if mpi.is_master_process():
+            sp = single_mean / dist_mean if dist_mean > 0 else 0
+            ein_data.append({"size": N, "data_gb": round(mem_gb, 3),
+                             "single_ms": round(single_mean, 2), "dist_ms": round(dist_mean, 2),
+                             "speedup": round(sp, 3)})
+            print(f"      单GPU: {single_mean:.2f}ms  分布式: {dist_mean:.2f}ms  加速比: {sp:.3f}x")
+            del A, B
+        clean_gpu(); mpi.barrier()
+    results["data"]["einsum"] = ein_data
+
+    # ─── 8) Stencil 2D ────────────────────────────────────────
+    mpi.print_master("\n  ── 算子: Stencil 2D ──")
+    stencil_configs = [
+        (256, 50), (512, 50), (1024, 50), (2048, 50), (4096, 50),
+        (256, 200), (512, 200), (1024, 200), (2048, 200), (4096, 200),
+    ]
+    stencil_data = []
+    for grid_sz, iters in stencil_configs:
+        mem_gb = grid_sz * grid_sz * 4 / 1024**3
+        if not check_gpu_mem(mpi, required_gb=mem_gb * 3 + 2.0):
+            continue
+        mpi.print_master(f"    Stencil {grid_sz}x{grid_sz} x{iters}iter")
+        if mpi.is_master_process():
+            grid = torch.randn(grid_sz, grid_sz, device=dev)
+        else:
+            grid = None
+        single_mean = 0
+        if mpi.is_master_process():
+            kernel_5pt = torch.tensor([[0.,1.,0.],[1.,-4.,1.],[0.,1.,0.]], device=dev)
+            wt = kernel_5pt.reshape(1, 1, 3, 3)
+            def single_stencil():
+                g = grid.clone()
+                for _ in range(iters):
+                    g = F.conv2d(g.unsqueeze(0).unsqueeze(0), wt, padding=1).squeeze(0).squeeze(0)
+                return g
+            single_mean, _, _ = benchmark_fn(single_stencil, repeats=5, warmup=1)
+        dist_mean, _, _ = dist_benchmark(
+            lambda: distributed_stencil_2d(grid, mpi, distributor, iterations=iters),
+            mpi, repeats=5, warmup=1)
+        if mpi.is_master_process():
+            sp = single_mean / dist_mean if dist_mean > 0 else 0
+            stencil_data.append({"grid": grid_sz, "iterations": iters,
+                                 "data_gb": round(mem_gb, 3),
+                                 "single_ms": round(single_mean, 2), "dist_ms": round(dist_mean, 2),
+                                 "speedup": round(sp, 3)})
+            print(f"      单GPU: {single_mean:.2f}ms  分布式: {dist_mean:.2f}ms  加速比: {sp:.3f}x")
+            del grid
+        clean_gpu(); mpi.barrier()
+    results["data"]["stencil"] = stencil_data
 
     save_result("exp1_compute_performance", results, mpi)
     return results
@@ -1014,6 +1234,294 @@ def exp8_applications(mpi, distributor):
 
 
 # ==============================================================
+#  实验 9: 内存效率分析 (显存利用率、峰值显存)
+# ==============================================================
+def exp9_memory_efficiency(mpi, distributor):
+    """不同规模下分布式计算的显存利用率 — 对比单GPU vs 分布式的峰值显存"""
+    from distributed_gpu.algorithms.matrix_ops import distributed_matmul
+
+    results = {"experiment": "内存效率分析", "gpu_count": mpi.get_size(),
+               "repeats": 3, "data": []}
+
+    warm_up_gpu(mpi.get_gpu_id())
+    gpu_id = mpi.get_gpu_id()
+
+    for N in [1024, 2048, 3072, 4096, 5120, 6144, 8192, 10240, 12288]:
+        mem_gb = 3 * N * N * 4 / 1024**3
+        if not check_gpu_mem(mpi, required_gb=mem_gb + 2.0):
+            continue
+
+        mpi.print_master(f"  矩阵规模: {N}x{N}")
+
+        # 测量分布式峰值显存
+        torch.cuda.reset_peak_memory_stats(gpu_id)
+        torch.cuda.synchronize(gpu_id)
+
+        if mpi.is_master_process():
+            A = torch.randn(N, N, device=f'cuda:{gpu_id}')
+            B = torch.randn(N, N, device=f'cuda:{gpu_id}')
+        else:
+            A = B = None
+
+        mpi.barrier()
+        mem_before = torch.cuda.memory_allocated(gpu_id) / 1024**3
+
+        for _ in range(3):
+            result = distributed_matmul(A, B, mpi, distributor)
+            torch.cuda.synchronize(gpu_id)
+            if result is not None:
+                del result
+            clean_gpu()
+
+        dist_peak_gb = torch.cuda.max_memory_allocated(gpu_id) / 1024**3
+        dist_current_gb = torch.cuda.memory_allocated(gpu_id) / 1024**3
+
+        # 测量单GPU峰值显存 (仅master)
+        single_peak_gb = 0.0
+        if mpi.is_master_process():
+            torch.cuda.reset_peak_memory_stats(gpu_id)
+            for _ in range(3):
+                C = torch.matmul(A, B)
+                torch.cuda.synchronize(gpu_id)
+                del C
+                clean_gpu()
+            single_peak_gb = torch.cuda.max_memory_allocated(gpu_id) / 1024**3
+
+        # 总显存
+        total_mem_gb = torch.cuda.get_device_properties(gpu_id).total_memory / 1024**3
+
+        if mpi.is_master_process():
+            # 理论显存需求 (A + B + C)
+            theory_gb = 3 * N * N * 4 / 1024**3
+            # 分布式理论: 每GPU只需 A_local + B + C_local
+            dist_theory_gb = (N * N / mpi.get_size() + N * N + N * N / mpi.get_size()) * 4 / 1024**3
+            mem_saving_pct = (1 - dist_peak_gb / max(single_peak_gb, 1e-6)) * 100
+
+            results["data"].append({
+                "matrix_size": N,
+                "theory_full_gb": round(theory_gb, 3),
+                "theory_distributed_gb": round(dist_theory_gb, 3),
+                "single_gpu_peak_gb": round(single_peak_gb, 3),
+                "distributed_peak_gb": round(dist_peak_gb, 3),
+                "total_gpu_mem_gb": round(total_mem_gb, 1),
+                "single_utilization_pct": round(single_peak_gb / total_mem_gb * 100, 1),
+                "dist_utilization_pct": round(dist_peak_gb / total_mem_gb * 100, 1),
+                "memory_saving_pct": round(mem_saving_pct, 1),
+            })
+            print(f"    单GPU峰值: {single_peak_gb:.2f}GB, "
+                  f"分布式峰值: {dist_peak_gb:.2f}GB, "
+                  f"节省: {mem_saving_pct:.1f}%, "
+                  f"利用率: {dist_peak_gb/total_mem_gb*100:.1f}%")
+
+            del A, B
+        clean_gpu()
+        mpi.barrier()
+
+    save_result("exp9_memory_efficiency", results, mpi)
+    return results
+
+
+# ==============================================================
+#  实验 10: 多算子综合性能对比 (归一化加速比)
+# ==============================================================
+def exp10_operator_comparison(mpi, distributor):
+    """多种分布式算子在不同规模下的归一化加速比 — 用于雷达图"""
+    from distributed_gpu.algorithms.matrix_ops import (
+        distributed_matmul, distributed_matmul_mixed_precision,
+        distributed_matmul_sparse_aware, distributed_add
+    )
+    from distributed_gpu.algorithms.reduction import distributed_sum, distributed_mean
+    from distributed_gpu.algorithms.fft import distributed_fft2d
+    from distributed_gpu.algorithms.convolution import distributed_conv2d
+    from distributed_gpu.algorithms.einsum import distributed_einsum
+    from distributed_gpu.algorithms.stencil import distributed_stencil_2d
+
+    results = {"experiment": "多算子综合对比", "gpu_count": mpi.get_size(),
+               "repeats": 3, "data": {}}
+
+    warm_up_gpu(mpi.get_gpu_id())
+    gpu_id = mpi.get_gpu_id()
+    P = mpi.get_size()
+
+    # --- MatMul ---
+    mpi.print_master("  [MatMul] 标准矩阵乘法")
+    N = 4096
+    if mpi.is_master_process():
+        A = torch.randn(N, N, device=f'cuda:{gpu_id}')
+        B = torch.randn(N, N, device=f'cuda:{gpu_id}')
+    else:
+        A = B = None
+    single_mean = 0
+    if mpi.is_master_process():
+        single_mean, _, _ = benchmark_fn(lambda: torch.matmul(A, B), repeats=3, warmup=2)
+    dist_mean, _, _ = dist_benchmark(
+        lambda: distributed_matmul(A, B, mpi, distributor), mpi, repeats=3, warmup=2)
+    matmul_speedup = single_mean / dist_mean if dist_mean > 0 and mpi.is_master_process() else 0
+    if mpi.is_master_process():
+        del A, B
+    clean_gpu(); mpi.barrier()
+
+    # --- Mixed Precision MatMul ---
+    mpi.print_master("  [MixedPrec] 混合精度矩阵乘法")
+    if mpi.is_master_process():
+        A = torch.randn(N, N, device=f'cuda:{gpu_id}')
+        B = torch.randn(N, N, device=f'cuda:{gpu_id}')
+    else:
+        A = B = None
+    single_mean = 0
+    if mpi.is_master_process():
+        single_mean, _, _ = benchmark_fn(lambda: torch.matmul(A, B), repeats=3, warmup=2)
+    dist_mean, _, _ = dist_benchmark(
+        lambda: distributed_matmul_mixed_precision(A, B, mpi, distributor), mpi, repeats=3, warmup=2)
+    mp_speedup = single_mean / dist_mean if dist_mean > 0 and mpi.is_master_process() else 0
+    if mpi.is_master_process():
+        del A, B
+    clean_gpu(); mpi.barrier()
+
+    # --- Addition ---
+    mpi.print_master("  [Add] 矩阵加法")
+    if mpi.is_master_process():
+        A = torch.randn(N, N, device=f'cuda:{gpu_id}')
+        B = torch.randn(N, N, device=f'cuda:{gpu_id}')
+    else:
+        A = B = None
+    single_mean = 0
+    if mpi.is_master_process():
+        single_mean, _, _ = benchmark_fn(lambda: torch.add(A, B), repeats=3, warmup=2)
+    dist_mean, _, _ = dist_benchmark(
+        lambda: distributed_add(A, B, mpi, distributor), mpi, repeats=3, warmup=2)
+    add_speedup = single_mean / dist_mean if dist_mean > 0 and mpi.is_master_process() else 0
+    if mpi.is_master_process():
+        del A, B
+    clean_gpu(); mpi.barrier()
+
+    # --- Reduction (Sum) ---
+    mpi.print_master("  [Sum] 归约求和")
+    vec_n = 10_000_000
+    if mpi.is_master_process():
+        data = torch.randn(vec_n, device=f'cuda:{gpu_id}')
+    else:
+        data = None
+    single_mean = 0
+    if mpi.is_master_process():
+        single_mean, _, _ = benchmark_fn(lambda: torch.sum(data), repeats=3, warmup=2)
+    dist_mean, _, _ = dist_benchmark(
+        lambda: distributed_sum(data, mpi, distributor), mpi, repeats=3, warmup=2)
+    sum_speedup = single_mean / dist_mean if dist_mean > 0 and mpi.is_master_process() else 0
+    if mpi.is_master_process():
+        del data
+    clean_gpu(); mpi.barrier()
+
+    # --- FFT ---
+    mpi.print_master("  [FFT] 2D FFT")
+    fft_size = 1024
+    if mpi.is_master_process():
+        data = torch.randn(P, fft_size, fft_size, device=f'cuda:{gpu_id}')
+    else:
+        data = None
+    single_mean = 0
+    if mpi.is_master_process():
+        single_mean, _, _ = benchmark_fn(lambda: torch.fft.fft2(data), repeats=3, warmup=2)
+    dist_mean, _, _ = dist_benchmark(
+        lambda: distributed_fft2d(data, mpi, distributor), mpi, repeats=3, warmup=2)
+    fft_speedup = single_mean / dist_mean if dist_mean > 0 and mpi.is_master_process() else 0
+    if mpi.is_master_process():
+        del data
+    clean_gpu(); mpi.barrier()
+
+    # --- Conv2d ---
+    mpi.print_master("  [Conv2d] 分布式卷积")
+    batch = max(32, P * 4)
+    if mpi.is_master_process():
+        inp = torch.randn(batch, 64, 56, 56, device=f'cuda:{gpu_id}')
+        weight = torch.randn(128, 64, 3, 3, device=f'cuda:{gpu_id}')
+        bias = torch.randn(128, device=f'cuda:{gpu_id}')
+    else:
+        inp = weight = bias = None
+    single_mean = 0
+    if mpi.is_master_process():
+        import torch.nn.functional as F
+        single_mean, _, _ = benchmark_fn(
+            lambda: F.conv2d(inp, weight, bias, padding=(1,1)), repeats=3, warmup=2)
+    dist_mean, _, _ = dist_benchmark(
+        lambda: distributed_conv2d(inp, weight, mpi, distributor, bias=bias, padding=(1,1)),
+        mpi, repeats=3, warmup=2)
+    conv_speedup = single_mean / dist_mean if dist_mean > 0 and mpi.is_master_process() else 0
+    if mpi.is_master_process():
+        del inp, weight, bias
+    clean_gpu(); mpi.barrier()
+
+    # --- Einsum ---
+    mpi.print_master("  [Einsum] 张量收缩")
+    if mpi.is_master_process():
+        A = torch.randn(2048, 1024, device=f'cuda:{gpu_id}')
+        B = torch.randn(1024, 2048, device=f'cuda:{gpu_id}')
+    else:
+        A = B = None
+    single_mean = 0
+    if mpi.is_master_process():
+        single_mean, _, _ = benchmark_fn(lambda: torch.einsum('ij,jk->ik', A, B), repeats=3, warmup=2)
+    dist_mean, _, _ = dist_benchmark(
+        lambda: distributed_einsum('ij,jk->ik', A, B, mpi=mpi, distributor=distributor),
+        mpi, repeats=3, warmup=2)
+    einsum_speedup = single_mean / dist_mean if dist_mean > 0 and mpi.is_master_process() else 0
+    if mpi.is_master_process():
+        del A, B
+    clean_gpu(); mpi.barrier()
+
+    # --- Stencil ---
+    mpi.print_master("  [Stencil] 2D Stencil")
+    grid_size = 1024
+    if grid_size % P == 0:
+        if mpi.is_master_process():
+            grid = torch.zeros(grid_size, grid_size, device=f'cuda:{gpu_id}')
+            grid[grid_size//2-5:grid_size//2+5, grid_size//2-5:grid_size//2+5] = 100.0
+        else:
+            grid = None
+        single_mean = 0
+        if mpi.is_master_process():
+            # 简单单GPU stencil baseline
+            def single_stencil():
+                g = grid.clone()
+                for _ in range(20):
+                    g[1:-1, 1:-1] = 0.25 * (g[:-2, 1:-1] + g[2:, 1:-1] +
+                                              g[1:-1, :-2] + g[1:-1, 2:])
+                return g
+            single_mean, _, _ = benchmark_fn(single_stencil, repeats=3, warmup=1)
+        dist_mean, _, _ = dist_benchmark(
+            lambda: distributed_stencil_2d(grid, mpi, distributor, iterations=20),
+            mpi, repeats=3, warmup=1)
+        stencil_speedup = single_mean / dist_mean if dist_mean > 0 and mpi.is_master_process() else 0
+        if mpi.is_master_process():
+            del grid
+        clean_gpu(); mpi.barrier()
+    else:
+        stencil_speedup = 0
+
+    # 汇总
+    if mpi.is_master_process():
+        results["data"] = {
+            "operators": [
+                {"name": "MatMul", "speedup": round(matmul_speedup, 3)},
+                {"name": "MixedPrec", "speedup": round(mp_speedup, 3)},
+                {"name": "Add", "speedup": round(add_speedup, 3)},
+                {"name": "Sum", "speedup": round(sum_speedup, 3)},
+                {"name": "FFT2D", "speedup": round(fft_speedup, 3)},
+                {"name": "Conv2D", "speedup": round(conv_speedup, 3)},
+                {"name": "Einsum", "speedup": round(einsum_speedup, 3)},
+                {"name": "Stencil", "speedup": round(stencil_speedup, 3)},
+            ],
+            "matrix_size": N,
+            "gpu_count": mpi.get_size(),
+        }
+        for op in results["data"]["operators"]:
+            print(f"    {op['name']:<12}: 加速比 = {op['speedup']:.3f}x")
+
+    save_result("exp10_operator_comparison", results, mpi)
+    return results
+
+
+# ==============================================================
 #  Main
 # ==============================================================
 def main():
@@ -1059,10 +1567,12 @@ def main():
         "6": ("实验6: 流水线优化(增强)", exp6_pipeline),
         "7": ("实验7: 代价模型策略(增强)", exp7_cost_model),
         "8": ("实验8: 科学计算应用(增强)", exp8_applications),
+        "9": ("实验9: 内存效率分析", exp9_memory_efficiency),
+        "10": ("实验10: 多算子综合对比", exp10_operator_comparison),
     }
 
     if exp_id == "all":
-        run_list = sorted(experiments.keys())
+        run_list = sorted(experiments.keys(), key=int)
     else:
         run_list = [exp_id]
 

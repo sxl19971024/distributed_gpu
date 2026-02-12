@@ -1,0 +1,210 @@
+{
+  "experiment": "矩阵乘法跨框架对比",
+  "gpu_count": 3,
+  "gpu_ids": [
+    0,
+    1,
+    2
+  ],
+  "repeats": 5,
+  "single_gpu": [
+    {
+      "size": 1024,
+      "mean_ms": 0.06,
+      "std_ms": 0.0
+    },
+    {
+      "size": 2048,
+      "mean_ms": 0.27,
+      "std_ms": 0.0
+    },
+    {
+      "size": 4096,
+      "mean_ms": 1.99,
+      "std_ms": 0.0
+    },
+    {
+      "size": 6144,
+      "mean_ms": 6.36,
+      "std_ms": 0.14
+    },
+    {
+      "size": 8192,
+      "mean_ms": 16.41,
+      "std_ms": 0.42
+    },
+    {
+      "size": 10240,
+      "mean_ms": 33.68,
+      "std_ms": 0.17
+    },
+    {
+      "size": 12288,
+      "mean_ms": 57.46,
+      "std_ms": 0.04
+    },
+    {
+      "size": 14336,
+      "mean_ms": 91.71,
+      "std_ms": 0.57
+    }
+  ],
+  "torch_distributed_nccl": [
+    {
+      "size": 1024,
+      "mean_ms": 0.51,
+      "std_ms": 0.06
+    },
+    {
+      "size": 2048,
+      "mean_ms": 1.14,
+      "std_ms": 0.01
+    },
+    {
+      "size": 4096,
+      "mean_ms": 3.98,
+      "std_ms": 0.02
+    },
+    {
+      "size": 6144,
+      "mean_ms": 9.23,
+      "std_ms": 0.02
+    },
+    {
+      "size": 8192,
+      "mean_ms": 17.52,
+      "std_ms": 0.04
+    },
+    {
+      "size": 10240,
+      "mean_ms": 29.42,
+      "std_ms": 0.37
+    },
+    {
+      "size": 12288,
+      "mean_ms": 44.48,
+      "std_ms": 0.03
+    },
+    {
+      "size": 14336,
+      "mean_ms": 64.68,
+      "std_ms": 0.31
+    }
+  ],
+  "distributed_gpu_framework": [
+    {
+      "size": 1024,
+      "mean_ms": 0.27,
+      "std_ms": 0.01
+    },
+    {
+      "size": 2048,
+      "mean_ms": 0.49,
+      "std_ms": 0.04
+    },
+    {
+      "size": 4096,
+      "mean_ms": 2.18,
+      "std_ms": 0.01
+    },
+    {
+      "size": 6144,
+      "mean_ms": 7.65,
+      "std_ms": 1.19
+    },
+    {
+      "size": 8192,
+      "mean_ms": 16.37,
+      "std_ms": 0.1
+    },
+    {
+      "size": 10240,
+      "mean_ms": 33.5,
+      "std_ms": 0.5
+    },
+    {
+      "size": 12288,
+      "mean_ms": 57.51,
+      "std_ms": 0.5
+    },
+    {
+      "size": 14336,
+      "mean_ms": 92.68,
+      "std_ms": 1.39
+    }
+  ],
+  "comparison": [
+    {
+      "size": 1024,
+      "single_ms": 0.06,
+      "nccl_ms": 0.51,
+      "nccl_speedup": 0.118,
+      "ours_ms": 0.27,
+      "ours_speedup": 0.222,
+      "nccl_vs_ours": 0.53
+    },
+    {
+      "size": 2048,
+      "single_ms": 0.27,
+      "nccl_ms": 1.14,
+      "nccl_speedup": 0.237,
+      "ours_ms": 0.49,
+      "ours_speedup": 0.551,
+      "nccl_vs_ours": 0.43
+    },
+    {
+      "size": 4096,
+      "single_ms": 1.99,
+      "nccl_ms": 3.98,
+      "nccl_speedup": 0.5,
+      "ours_ms": 2.18,
+      "ours_speedup": 0.913,
+      "nccl_vs_ours": 0.55
+    },
+    {
+      "size": 6144,
+      "single_ms": 6.36,
+      "nccl_ms": 9.23,
+      "nccl_speedup": 0.689,
+      "ours_ms": 7.65,
+      "ours_speedup": 0.831,
+      "nccl_vs_ours": 0.83
+    },
+    {
+      "size": 8192,
+      "single_ms": 16.41,
+      "nccl_ms": 17.52,
+      "nccl_speedup": 0.937,
+      "ours_ms": 16.37,
+      "ours_speedup": 1.002,
+      "nccl_vs_ours": 0.93
+    },
+    {
+      "size": 10240,
+      "single_ms": 33.68,
+      "nccl_ms": 29.42,
+      "nccl_speedup": 1.145,
+      "ours_ms": 33.5,
+      "ours_speedup": 1.005,
+      "nccl_vs_ours": 1.14
+    },
+    {
+      "size": 12288,
+      "single_ms": 57.46,
+      "nccl_ms": 44.48,
+      "nccl_speedup": 1.292,
+      "ours_ms": 57.51,
+      "ours_speedup": 0.999,
+      "nccl_vs_ours": 1.29
+    },
+    {
+      "size": 14336,
+      "single_ms": 91.71,
+      "nccl_ms": 64.68,
+      "nccl_speedup": 1.418,
+      "ours_ms": 92.68,
+      "ours_speedup": 0.99,
+      "nccl_vs_ours": 1.43
+    }
+  ]
+}

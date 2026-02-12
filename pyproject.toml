@@ -2,10 +2,14 @@
 requires = ["setuptools>=64", "wheel"]
 build-backend = "setuptools.build_meta"
 
+# ============================================================
+#  项目元数据 — 所有配置的唯一来源 (Single Source of Truth)
+#  目标环境: OpenMPI 4.1.5 + CUDA 12.1 (NVIDIA Driver >= 530)
+# ============================================================
 [project]
 name = "distributed-gpu"
-version = "1.3.0"
-description = "基于MPI的分布式GPU计算框架，支持大规模张量并行计算"
+version = "1.4.0"
+description = "基于MPI的分布式GPU计算框架，支持大规模张量并行计算 (OpenMPI 4.1.5 + CUDA 12.1)"
 readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.8"
@@ -18,34 +22,83 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: POSIX :: Linux",
     "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
     "Topic :: Scientific/Engineering",
     "Topic :: System :: Distributed Computing",
+    "Typing :: Typed",
 ]
+
+# ---------- 核心依赖 (pip install -e . 一键安装全部) ----------
 dependencies = [
-    "torch>=2.2.0",
+    # PyTorch 2.1+ (CUDA 12.1)
+    # 若需精确控制: pip install torch --index-url https://download.pytorch.org/whl/cu121
+    "torch>=2.1.0",
+    # mpi4py 3.1+ (需要系统已安装 OpenMPI 4.1.x)
     "mpi4py>=3.1.0",
     "numpy>=1.21.0",
     "opt-einsum>=3.3.0",
-]
-
-[project.optional-dependencies]
-dev = [
-    "pytest>=7.0.0",
-    "pytest-mpi>=0.6",
-    "matplotlib>=3.5.0",
-]
-full = [
-    "cupy>=12.0.0",
+    # 科学计算扩展
+    "cupy-cuda12x>=12.0.0",
     "scipy>=1.9.0",
+    # 实验 + 图表
+    "matplotlib>=3.5.0",
+    "seaborn>=0.12.0",
+    # 跨框架对比: Dask-CUDA
+    "dask-cuda>=24.0",
+    # 系统监控 + 配置
     "psutil>=5.9.0",
     "pyyaml>=6.0",
 ]
 
-[project.urls]
-Homepage = "https://github.com/dstar/distributed_gpu"
-Repository = "https://github.com/dstar/distributed_gpu"
-Issues = "https://github.com/dstar/distributed_gpu/issues"
+# ---------- 可选依赖组 ----------
+[project.optional-dependencies]
+# PETSc 科学计算对比 (pip 编译常失败，推荐: conda install -c conda-forge petsc4py -y)
+petsc = [
+    "petsc4py>=3.20.0",
+]
+# 开发/测试
+dev = [
+    "pytest>=7.0.0",
+    "pytest-mpi>=0.6",
+    "mypy>=1.0.0",
+    "ruff>=0.1.0",
+]
 
+[project.urls]
+Homepage = "https://github.com/sxl19971024/distributed_gpu"
+Repository = "https://github.com/sxl19971024/distributed_gpu"
+Issues = "https://github.com/sxl19971024/distributed_gpu/issues"
+
+# ---------- setuptools 配置 ----------
 [tool.setuptools.packages.find]
 include = ["distributed_gpu*"]
 exclude = ["experiments*", "examples*", "docs*", "results*"]
+
+[tool.setuptools.package-data]
+distributed_gpu = ["py.typed"]
+
+# ---------- 工具配置 ----------
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+ignore_missing_imports = true
+
+[tool.ruff]
+target-version = "py38"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I"]
+ignore = ["E501"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "mpi: tests requiring MPI (deselect with '-m \"not mpi\"')",
+]

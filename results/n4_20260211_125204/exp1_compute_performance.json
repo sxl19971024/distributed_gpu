@@ -1,0 +1,611 @@
+{
+  "experiment": "多算子计算性能对比(增强)",
+  "gpu_count": 4,
+  "repeats": 5,
+  "data": {
+    "matmul": [
+      {
+        "size": 512,
+        "data_gb": 0.003,
+        "single_ms": 0.02,
+        "dist_ms": 0.42,
+        "speedup": 0.059
+      },
+      {
+        "size": 1024,
+        "data_gb": 0.012,
+        "single_ms": 0.06,
+        "dist_ms": 0.39,
+        "speedup": 0.144
+      },
+      {
+        "size": 2048,
+        "data_gb": 0.047,
+        "single_ms": 0.27,
+        "dist_ms": 0.62,
+        "speedup": 0.437
+      },
+      {
+        "size": 3072,
+        "data_gb": 0.105,
+        "single_ms": 0.83,
+        "dist_ms": 1.2,
+        "speedup": 0.698
+      },
+      {
+        "size": 4096,
+        "data_gb": 0.188,
+        "single_ms": 1.98,
+        "dist_ms": 2.9,
+        "speedup": 0.683
+      },
+      {
+        "size": 5120,
+        "data_gb": 0.293,
+        "single_ms": 3.73,
+        "dist_ms": 4.05,
+        "speedup": 0.92
+      },
+      {
+        "size": 6144,
+        "data_gb": 0.422,
+        "single_ms": 6.49,
+        "dist_ms": 6.55,
+        "speedup": 0.991
+      },
+      {
+        "size": 7168,
+        "data_gb": 0.574,
+        "single_ms": 10.7,
+        "dist_ms": 10.22,
+        "speedup": 1.047
+      },
+      {
+        "size": 8192,
+        "data_gb": 0.75,
+        "single_ms": 15.05,
+        "dist_ms": 15.0,
+        "speedup": 1.003
+      },
+      {
+        "size": 10240,
+        "data_gb": 1.172,
+        "single_ms": 32.07,
+        "dist_ms": 29.84,
+        "speedup": 1.075
+      },
+      {
+        "size": 12288,
+        "data_gb": 1.688,
+        "single_ms": 56.91,
+        "dist_ms": 52.13,
+        "speedup": 1.092
+      },
+      {
+        "size": 14336,
+        "data_gb": 2.297,
+        "single_ms": 90.91,
+        "dist_ms": 84.38,
+        "speedup": 1.077
+      }
+    ],
+    "mixed_precision_matmul": [
+      {
+        "size": 1024,
+        "data_gb": 0.012,
+        "single_ms": 0.06,
+        "dist_ms": 0.39,
+        "speedup": 0.145
+      },
+      {
+        "size": 2048,
+        "data_gb": 0.047,
+        "single_ms": 0.27,
+        "dist_ms": 1.28,
+        "speedup": 0.21
+      },
+      {
+        "size": 4096,
+        "data_gb": 0.188,
+        "single_ms": 1.98,
+        "dist_ms": 2.3,
+        "speedup": 0.864
+      },
+      {
+        "size": 6144,
+        "data_gb": 0.422,
+        "single_ms": 6.32,
+        "dist_ms": 6.55,
+        "speedup": 0.965
+      },
+      {
+        "size": 8192,
+        "data_gb": 0.75,
+        "single_ms": 15.68,
+        "dist_ms": 15.02,
+        "speedup": 1.044
+      },
+      {
+        "size": 10240,
+        "data_gb": 1.172,
+        "single_ms": 32.02,
+        "dist_ms": 29.78,
+        "speedup": 1.075
+      },
+      {
+        "size": 12288,
+        "data_gb": 1.688,
+        "single_ms": 56.59,
+        "dist_ms": 52.95,
+        "speedup": 1.069
+      }
+    ],
+    "add": [
+      {
+        "size": 1024,
+        "data_gb": 0.012,
+        "single_ms": 0.01,
+        "dist_ms": 0.31,
+        "speedup": 0.038
+      },
+      {
+        "size": 2048,
+        "data_gb": 0.047,
+        "single_ms": 0.02,
+        "dist_ms": 0.29,
+        "speedup": 0.057
+      },
+      {
+        "size": 4096,
+        "data_gb": 0.188,
+        "single_ms": 0.12,
+        "dist_ms": 0.38,
+        "speedup": 0.316
+      },
+      {
+        "size": 6144,
+        "data_gb": 0.422,
+        "single_ms": 0.3,
+        "dist_ms": 1.96,
+        "speedup": 0.151
+      },
+      {
+        "size": 8192,
+        "data_gb": 0.75,
+        "single_ms": 0.52,
+        "dist_ms": 0.87,
+        "speedup": 0.595
+      },
+      {
+        "size": 10240,
+        "data_gb": 1.172,
+        "single_ms": 0.81,
+        "dist_ms": 1.4,
+        "speedup": 0.575
+      },
+      {
+        "size": 12288,
+        "data_gb": 1.688,
+        "single_ms": 1.16,
+        "dist_ms": 2.11,
+        "speedup": 0.551
+      },
+      {
+        "size": 16384,
+        "data_gb": 3.0,
+        "single_ms": 2.06,
+        "dist_ms": 4.21,
+        "speedup": 0.488
+      }
+    ],
+    "sum": [
+      {
+        "size": 1024,
+        "data_gb": 0.004,
+        "single_ms": 0.01,
+        "dist_ms": 0.32,
+        "speedup": 0.045
+      },
+      {
+        "size": 2048,
+        "data_gb": 0.016,
+        "single_ms": 0.02,
+        "dist_ms": 0.3,
+        "speedup": 0.052
+      },
+      {
+        "size": 4096,
+        "data_gb": 0.062,
+        "single_ms": 0.02,
+        "dist_ms": 1.47,
+        "speedup": 0.016
+      },
+      {
+        "size": 8192,
+        "data_gb": 0.25,
+        "single_ms": 0.19,
+        "dist_ms": 0.48,
+        "speedup": 0.406
+      },
+      {
+        "size": 10240,
+        "data_gb": 0.391,
+        "single_ms": 0.26,
+        "dist_ms": 0.55,
+        "speedup": 0.473
+      },
+      {
+        "size": 12288,
+        "data_gb": 0.562,
+        "single_ms": 0.37,
+        "dist_ms": 0.65,
+        "speedup": 0.571
+      },
+      {
+        "size": 16384,
+        "data_gb": 1.0,
+        "single_ms": 0.66,
+        "dist_ms": 1.04,
+        "speedup": 0.641
+      },
+      {
+        "size": 20480,
+        "data_gb": 1.562,
+        "single_ms": 1.0,
+        "dist_ms": 1.29,
+        "speedup": 0.779
+      }
+    ],
+    "fft2d": [
+      {
+        "batch": 4,
+        "grid": 256,
+        "data_gb": 0.001,
+        "single_ms": 0.02,
+        "dist_ms": 0.22,
+        "speedup": 0.109
+      },
+      {
+        "batch": 8,
+        "grid": 256,
+        "data_gb": 0.002,
+        "single_ms": 0.02,
+        "dist_ms": 0.37,
+        "speedup": 0.063
+      },
+      {
+        "batch": 16,
+        "grid": 256,
+        "data_gb": 0.004,
+        "single_ms": 0.03,
+        "dist_ms": 0.47,
+        "speedup": 0.061
+      },
+      {
+        "batch": 32,
+        "grid": 256,
+        "data_gb": 0.008,
+        "single_ms": 0.04,
+        "dist_ms": 0.57,
+        "speedup": 0.062
+      },
+      {
+        "batch": 4,
+        "grid": 512,
+        "data_gb": 0.004,
+        "single_ms": 0.03,
+        "dist_ms": 0.47,
+        "speedup": 0.06
+      },
+      {
+        "batch": 8,
+        "grid": 512,
+        "data_gb": 0.008,
+        "single_ms": 0.04,
+        "dist_ms": 1.26,
+        "speedup": 0.029
+      },
+      {
+        "batch": 16,
+        "grid": 512,
+        "data_gb": 0.016,
+        "single_ms": 0.06,
+        "dist_ms": 0.57,
+        "speedup": 0.097
+      },
+      {
+        "batch": 32,
+        "grid": 512,
+        "data_gb": 0.031,
+        "single_ms": 0.15,
+        "dist_ms": 0.62,
+        "speedup": 0.249
+      },
+      {
+        "batch": 4,
+        "grid": 1024,
+        "data_gb": 0.016,
+        "single_ms": 0.06,
+        "dist_ms": 0.57,
+        "speedup": 0.102
+      },
+      {
+        "batch": 8,
+        "grid": 1024,
+        "data_gb": 0.031,
+        "single_ms": 0.17,
+        "dist_ms": 2.48,
+        "speedup": 0.069
+      },
+      {
+        "batch": 16,
+        "grid": 1024,
+        "data_gb": 0.062,
+        "single_ms": 0.5,
+        "dist_ms": 0.9,
+        "speedup": 0.553
+      },
+      {
+        "batch": 4,
+        "grid": 2048,
+        "data_gb": 0.062,
+        "single_ms": 0.5,
+        "dist_ms": 0.9,
+        "speedup": 0.559
+      },
+      {
+        "batch": 8,
+        "grid": 2048,
+        "data_gb": 0.125,
+        "single_ms": 1.0,
+        "dist_ms": 1.34,
+        "speedup": 0.751
+      }
+    ],
+    "conv2d": [
+      {
+        "label": "B8",
+        "batch": 8,
+        "in_ch": 64,
+        "out_ch": 128,
+        "spatial": 56,
+        "data_gb": 0.018,
+        "single_ms": 0.08,
+        "dist_ms": 0.53,
+        "speedup": 0.152
+      },
+      {
+        "label": "B16",
+        "batch": 16,
+        "in_ch": 64,
+        "out_ch": 128,
+        "spatial": 56,
+        "data_gb": 0.036,
+        "single_ms": 0.14,
+        "dist_ms": 0.57,
+        "speedup": 0.243
+      },
+      {
+        "label": "B32",
+        "batch": 32,
+        "in_ch": 64,
+        "out_ch": 128,
+        "spatial": 56,
+        "data_gb": 0.072,
+        "single_ms": 0.22,
+        "dist_ms": 0.65,
+        "speedup": 0.345
+      },
+      {
+        "label": "B64",
+        "batch": 64,
+        "in_ch": 64,
+        "out_ch": 128,
+        "spatial": 56,
+        "data_gb": 0.144,
+        "single_ms": 0.51,
+        "dist_ms": 1.72,
+        "speedup": 0.298
+      },
+      {
+        "label": "B128",
+        "batch": 128,
+        "in_ch": 64,
+        "out_ch": 128,
+        "spatial": 56,
+        "data_gb": 0.287,
+        "single_ms": 0.99,
+        "dist_ms": 1.47,
+        "speedup": 0.67
+      },
+      {
+        "label": "B256",
+        "batch": 256,
+        "in_ch": 64,
+        "out_ch": 128,
+        "spatial": 56,
+        "data_gb": 0.574,
+        "single_ms": 1.94,
+        "dist_ms": 2.86,
+        "speedup": 0.676
+      },
+      {
+        "label": "deep-B32",
+        "batch": 32,
+        "in_ch": 128,
+        "out_ch": 256,
+        "spatial": 28,
+        "data_gb": 0.037,
+        "single_ms": 0.18,
+        "dist_ms": 1.86,
+        "speedup": 0.098
+      },
+      {
+        "label": "deep-B64",
+        "batch": 64,
+        "in_ch": 128,
+        "out_ch": 256,
+        "spatial": 28,
+        "data_gb": 0.073,
+        "single_ms": 0.38,
+        "dist_ms": 0.85,
+        "speedup": 0.447
+      },
+      {
+        "label": "deep-B128",
+        "batch": 128,
+        "in_ch": 128,
+        "out_ch": 256,
+        "spatial": 28,
+        "data_gb": 0.145,
+        "single_ms": 0.82,
+        "dist_ms": 1.66,
+        "speedup": 0.494
+      },
+      {
+        "label": "deep-B256",
+        "batch": 256,
+        "in_ch": 128,
+        "out_ch": 256,
+        "spatial": 28,
+        "data_gb": 0.288,
+        "single_ms": 1.53,
+        "dist_ms": 2.86,
+        "speedup": 0.534
+      }
+    ],
+    "einsum": [
+      {
+        "size": 1024,
+        "data_gb": 0.012,
+        "single_ms": 0.07,
+        "dist_ms": 0.5,
+        "speedup": 0.14
+      },
+      {
+        "size": 2048,
+        "data_gb": 0.047,
+        "single_ms": 0.3,
+        "dist_ms": 1.06,
+        "speedup": 0.28
+      },
+      {
+        "size": 3072,
+        "data_gb": 0.105,
+        "single_ms": 0.87,
+        "dist_ms": 1.31,
+        "speedup": 0.666
+      },
+      {
+        "size": 4096,
+        "data_gb": 0.188,
+        "single_ms": 2.0,
+        "dist_ms": 2.5,
+        "speedup": 0.8
+      },
+      {
+        "size": 6144,
+        "data_gb": 0.422,
+        "single_ms": 6.56,
+        "dist_ms": 6.86,
+        "speedup": 0.956
+      },
+      {
+        "size": 8192,
+        "data_gb": 0.75,
+        "single_ms": 16.33,
+        "dist_ms": 15.21,
+        "speedup": 1.074
+      },
+      {
+        "size": 10240,
+        "data_gb": 1.172,
+        "single_ms": 32.34,
+        "dist_ms": 29.78,
+        "speedup": 1.086
+      }
+    ],
+    "stencil": [
+      {
+        "grid": 256,
+        "iterations": 50,
+        "data_gb": 0.0,
+        "single_ms": 0.64,
+        "dist_ms": 1.62,
+        "speedup": 0.393
+      },
+      {
+        "grid": 512,
+        "iterations": 50,
+        "data_gb": 0.001,
+        "single_ms": 0.64,
+        "dist_ms": 1.75,
+        "speedup": 0.363
+      },
+      {
+        "grid": 1024,
+        "iterations": 50,
+        "data_gb": 0.004,
+        "single_ms": 0.64,
+        "dist_ms": 1.8,
+        "speedup": 0.356
+      },
+      {
+        "grid": 2048,
+        "iterations": 50,
+        "data_gb": 0.016,
+        "single_ms": 1.67,
+        "dist_ms": 5.12,
+        "speedup": 0.327
+      },
+      {
+        "grid": 4096,
+        "iterations": 50,
+        "data_gb": 0.062,
+        "single_ms": 7.54,
+        "dist_ms": 13.16,
+        "speedup": 0.573
+      },
+      {
+        "grid": 256,
+        "iterations": 200,
+        "data_gb": 0.0,
+        "single_ms": 2.5,
+        "dist_ms": 6.22,
+        "speedup": 0.403
+      },
+      {
+        "grid": 512,
+        "iterations": 200,
+        "data_gb": 0.001,
+        "single_ms": 2.46,
+        "dist_ms": 5.53,
+        "speedup": 0.444
+      },
+      {
+        "grid": 1024,
+        "iterations": 200,
+        "data_gb": 0.004,
+        "single_ms": 2.49,
+        "dist_ms": 5.7,
+        "speedup": 0.437
+      },
+      {
+        "grid": 2048,
+        "iterations": 200,
+        "data_gb": 0.016,
+        "single_ms": 6.59,
+        "dist_ms": 12.38,
+        "speedup": 0.533
+      },
+      {
+        "grid": 4096,
+        "iterations": 200,
+        "data_gb": 0.062,
+        "single_ms": 29.9,
+        "dist_ms": 52.04,
+        "speedup": 0.575
+      }
+    ]
+  }
+}

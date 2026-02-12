@@ -1,0 +1,555 @@
+{
+  "experiment": "科学计算应用(增强)",
+  "gpu_count": 4,
+  "repeats": 5,
+  "data": {
+    "stencil": [
+      {
+        "grid_size": 128,
+        "iterations": 10,
+        "mean_ms": 32.24,
+        "std_ms": 44.82,
+        "iter_per_sec": 310.1,
+        "throughput_cells_per_sec": 5081461.0
+      },
+      {
+        "grid_size": 128,
+        "iterations": 50,
+        "mean_ms": 1.55,
+        "std_ms": 0.01,
+        "iter_per_sec": 32189.6,
+        "throughput_cells_per_sec": 527394296.0
+      },
+      {
+        "grid_size": 128,
+        "iterations": 100,
+        "mean_ms": 2.82,
+        "std_ms": 0.01,
+        "iter_per_sec": 35429.9,
+        "throughput_cells_per_sec": 580482698.0
+      },
+      {
+        "grid_size": 128,
+        "iterations": 200,
+        "mean_ms": 5.4,
+        "std_ms": 0.04,
+        "iter_per_sec": 37060.3,
+        "throughput_cells_per_sec": 607196614.0
+      },
+      {
+        "grid_size": 256,
+        "iterations": 10,
+        "mean_ms": 0.7,
+        "std_ms": 0.29,
+        "iter_per_sec": 14221.2,
+        "throughput_cells_per_sec": 932000137.0
+      },
+      {
+        "grid_size": 256,
+        "iterations": 50,
+        "mean_ms": 1.55,
+        "std_ms": 0.01,
+        "iter_per_sec": 32297.0,
+        "throughput_cells_per_sec": 2116616327.0
+      },
+      {
+        "grid_size": 256,
+        "iterations": 100,
+        "mean_ms": 2.83,
+        "std_ms": 0.02,
+        "iter_per_sec": 35295.7,
+        "throughput_cells_per_sec": 2313138067.0
+      },
+      {
+        "grid_size": 256,
+        "iterations": 200,
+        "mean_ms": 5.8,
+        "std_ms": 0.64,
+        "iter_per_sec": 34460.0,
+        "throughput_cells_per_sec": 2258373306.0
+      },
+      {
+        "grid_size": 512,
+        "iterations": 10,
+        "mean_ms": 0.89,
+        "std_ms": 0.31,
+        "iter_per_sec": 11259.9,
+        "throughput_cells_per_sec": 2951709068.0
+      },
+      {
+        "grid_size": 512,
+        "iterations": 50,
+        "mean_ms": 1.68,
+        "std_ms": 0.02,
+        "iter_per_sec": 29779.2,
+        "throughput_cells_per_sec": 7806444084.0
+      },
+      {
+        "grid_size": 512,
+        "iterations": 100,
+        "mean_ms": 2.95,
+        "std_ms": 0.02,
+        "iter_per_sec": 33891.5,
+        "throughput_cells_per_sec": 8884463822.0
+      },
+      {
+        "grid_size": 512,
+        "iterations": 200,
+        "mean_ms": 5.47,
+        "std_ms": 0.01,
+        "iter_per_sec": 36572.9,
+        "throughput_cells_per_sec": 9587370683.0
+      },
+      {
+        "grid_size": 1024,
+        "iterations": 10,
+        "mean_ms": 1.0,
+        "std_ms": 0.25,
+        "iter_per_sec": 10047.0,
+        "throughput_cells_per_sec": 10535084265.0
+      },
+      {
+        "grid_size": 1024,
+        "iterations": 50,
+        "mean_ms": 1.88,
+        "std_ms": 0.01,
+        "iter_per_sec": 26662.1,
+        "throughput_cells_per_sec": 27957239338.0
+      },
+      {
+        "grid_size": 1024,
+        "iterations": 100,
+        "mean_ms": 3.18,
+        "std_ms": 0.03,
+        "iter_per_sec": 31494.3,
+        "throughput_cells_per_sec": 33024152212.0
+      },
+      {
+        "grid_size": 1024,
+        "iterations": 200,
+        "mean_ms": 5.75,
+        "std_ms": 0.01,
+        "iter_per_sec": 34754.6,
+        "throughput_cells_per_sec": 36442865718.0
+      },
+      {
+        "grid_size": 2048,
+        "iterations": 10,
+        "mean_ms": 8.5,
+        "std_ms": 10.16,
+        "iter_per_sec": 1176.0,
+        "throughput_cells_per_sec": 4932388611.0
+      },
+      {
+        "grid_size": 2048,
+        "iterations": 50,
+        "mean_ms": 3.3,
+        "std_ms": 0.02,
+        "iter_per_sec": 15142.3,
+        "throughput_cells_per_sec": 63511225461.0
+      },
+      {
+        "grid_size": 2048,
+        "iterations": 100,
+        "mean_ms": 5.75,
+        "std_ms": 0.01,
+        "iter_per_sec": 17383.3,
+        "throughput_cells_per_sec": 72910904377.0
+      },
+      {
+        "grid_size": 2048,
+        "iterations": 200,
+        "mean_ms": 10.67,
+        "std_ms": 0.01,
+        "iter_per_sec": 18750.8,
+        "throughput_cells_per_sec": 78646556393.0
+      },
+      {
+        "grid_size": 4096,
+        "iterations": 10,
+        "mean_ms": 3.22,
+        "std_ms": 0.28,
+        "iter_per_sec": 3105.7,
+        "throughput_cells_per_sec": 52105697281.0
+      },
+      {
+        "grid_size": 4096,
+        "iterations": 50,
+        "mean_ms": 13.19,
+        "std_ms": 0.01,
+        "iter_per_sec": 3789.8,
+        "throughput_cells_per_sec": 63581618357.0
+      },
+      {
+        "grid_size": 4096,
+        "iterations": 100,
+        "mean_ms": 26.19,
+        "std_ms": 0.37,
+        "iter_per_sec": 3817.7,
+        "throughput_cells_per_sec": 64050775666.0
+      },
+      {
+        "grid_size": 4096,
+        "iterations": 200,
+        "mean_ms": 51.33,
+        "std_ms": 0.03,
+        "iter_per_sec": 3896.1,
+        "throughput_cells_per_sec": 65365758003.0
+      }
+    ],
+    "jacobi": [
+      {
+        "grid_size": 128,
+        "max_iterations": 100,
+        "mean_ms": 16.65,
+        "std_ms": 10.85,
+        "iter_per_sec": 6005.5
+      },
+      {
+        "grid_size": 128,
+        "max_iterations": 200,
+        "mean_ms": 17.63,
+        "std_ms": 0.05,
+        "iter_per_sec": 11342.9
+      },
+      {
+        "grid_size": 128,
+        "max_iterations": 500,
+        "mean_ms": 43.57,
+        "std_ms": 0.24,
+        "iter_per_sec": 11476.6
+      },
+      {
+        "grid_size": 256,
+        "max_iterations": 100,
+        "mean_ms": 9.18,
+        "std_ms": 0.03,
+        "iter_per_sec": 10890.1
+      },
+      {
+        "grid_size": 256,
+        "max_iterations": 200,
+        "mean_ms": 18.09,
+        "std_ms": 0.01,
+        "iter_per_sec": 11058.4
+      },
+      {
+        "grid_size": 256,
+        "max_iterations": 500,
+        "mean_ms": 44.58,
+        "std_ms": 0.04,
+        "iter_per_sec": 11216.5
+      },
+      {
+        "grid_size": 512,
+        "max_iterations": 100,
+        "mean_ms": 9.62,
+        "std_ms": 0.03,
+        "iter_per_sec": 10399.1
+      },
+      {
+        "grid_size": 512,
+        "max_iterations": 200,
+        "mean_ms": 18.64,
+        "std_ms": 0.06,
+        "iter_per_sec": 10730.9
+      },
+      {
+        "grid_size": 512,
+        "max_iterations": 500,
+        "mean_ms": 46.72,
+        "std_ms": 1.43,
+        "iter_per_sec": 10701.5
+      },
+      {
+        "grid_size": 1024,
+        "max_iterations": 100,
+        "mean_ms": 9.87,
+        "std_ms": 0.04,
+        "iter_per_sec": 10132.3
+      },
+      {
+        "grid_size": 1024,
+        "max_iterations": 200,
+        "mean_ms": 18.94,
+        "std_ms": 0.06,
+        "iter_per_sec": 10560.2
+      },
+      {
+        "grid_size": 1024,
+        "max_iterations": 500,
+        "mean_ms": 46.34,
+        "std_ms": 0.1,
+        "iter_per_sec": 10790.8
+      },
+      {
+        "grid_size": 2048,
+        "max_iterations": 100,
+        "mean_ms": 16.8,
+        "std_ms": 5.72,
+        "iter_per_sec": 5953.6
+      },
+      {
+        "grid_size": 2048,
+        "max_iterations": 200,
+        "mean_ms": 24.43,
+        "std_ms": 0.04,
+        "iter_per_sec": 8187.5
+      },
+      {
+        "grid_size": 2048,
+        "max_iterations": 500,
+        "mean_ms": 59.48,
+        "std_ms": 0.04,
+        "iter_per_sec": 8406.9
+      }
+    ],
+    "conv2d": [
+      {
+        "config": "small",
+        "batch_size": 8,
+        "in_channels": 32,
+        "out_channels": 64,
+        "spatial_size": 56,
+        "single_gpu_mean_ms": 0.05,
+        "single_gpu_std_ms": 0.0,
+        "distributed_mean_ms": 1.42,
+        "distributed_std_ms": 1.23,
+        "speedup": 0.032
+      },
+      {
+        "config": "medium",
+        "batch_size": 16,
+        "in_channels": 64,
+        "out_channels": 128,
+        "spatial_size": 56,
+        "single_gpu_mean_ms": 0.14,
+        "single_gpu_std_ms": 0.0,
+        "distributed_mean_ms": 0.57,
+        "distributed_std_ms": 0.01,
+        "speedup": 0.244
+      },
+      {
+        "config": "medium-batch",
+        "batch_size": 32,
+        "in_channels": 64,
+        "out_channels": 128,
+        "spatial_size": 56,
+        "single_gpu_mean_ms": 0.22,
+        "single_gpu_std_ms": 0.0,
+        "distributed_mean_ms": 0.66,
+        "distributed_std_ms": 0.01,
+        "speedup": 0.34
+      },
+      {
+        "config": "large-batch",
+        "batch_size": 64,
+        "in_channels": 64,
+        "out_channels": 128,
+        "spatial_size": 56,
+        "single_gpu_mean_ms": 0.51,
+        "single_gpu_std_ms": 0.0,
+        "distributed_mean_ms": 0.92,
+        "distributed_std_ms": 0.01,
+        "speedup": 0.555
+      },
+      {
+        "config": "xlarge-batch",
+        "batch_size": 128,
+        "in_channels": 64,
+        "out_channels": 128,
+        "spatial_size": 56,
+        "single_gpu_mean_ms": 0.99,
+        "single_gpu_std_ms": 0.0,
+        "distributed_mean_ms": 1.42,
+        "distributed_std_ms": 0.01,
+        "speedup": 0.696
+      },
+      {
+        "config": "deep-small",
+        "batch_size": 32,
+        "in_channels": 128,
+        "out_channels": 256,
+        "spatial_size": 28,
+        "single_gpu_mean_ms": 0.18,
+        "single_gpu_std_ms": 0.0,
+        "distributed_mean_ms": 0.63,
+        "distributed_std_ms": 0.01,
+        "speedup": 0.292
+      },
+      {
+        "config": "deep-large",
+        "batch_size": 64,
+        "in_channels": 128,
+        "out_channels": 256,
+        "spatial_size": 28,
+        "single_gpu_mean_ms": 0.39,
+        "single_gpu_std_ms": 0.0,
+        "distributed_mean_ms": 0.83,
+        "distributed_std_ms": 0.01,
+        "speedup": 0.466
+      },
+      {
+        "config": "very-deep",
+        "batch_size": 32,
+        "in_channels": 256,
+        "out_channels": 512,
+        "spatial_size": 14,
+        "single_gpu_mean_ms": 0.18,
+        "single_gpu_std_ms": 0.0,
+        "distributed_mean_ms": 0.85,
+        "distributed_std_ms": 0.29,
+        "speedup": 0.21
+      }
+    ],
+    "einsum": [
+      {
+        "equation": "ij,jk->ik",
+        "shapes": [
+          [
+            2048,
+            1024
+          ],
+          [
+            1024,
+            2048
+          ]
+        ],
+        "description": "矩阵乘法",
+        "single_gpu_mean_ms": 0.19,
+        "single_gpu_std_ms": 0.0,
+        "distributed_mean_ms": 0.61,
+        "distributed_std_ms": 0.03,
+        "speedup": 0.31
+      },
+      {
+        "equation": "ij,jk->ik",
+        "shapes": [
+          [
+            4096,
+            2048
+          ],
+          [
+            2048,
+            4096
+          ]
+        ],
+        "description": "大矩阵乘法",
+        "single_gpu_mean_ms": 1.08,
+        "single_gpu_std_ms": 0.0,
+        "distributed_mean_ms": 1.49,
+        "distributed_std_ms": 0.01,
+        "speedup": 0.729
+      },
+      {
+        "equation": "bij,bjk->bik",
+        "shapes": [
+          [
+            32,
+            256,
+            128
+          ],
+          [
+            32,
+            128,
+            256
+          ]
+        ],
+        "description": "批量矩阵乘法(small)",
+        "single_gpu_mean_ms": 0.04,
+        "single_gpu_std_ms": 0.0,
+        "distributed_mean_ms": 0.5,
+        "distributed_std_ms": 0.01,
+        "speedup": 0.084
+      },
+      {
+        "equation": "bij,bjk->bik",
+        "shapes": [
+          [
+            64,
+            512,
+            256
+          ],
+          [
+            64,
+            256,
+            512
+          ]
+        ],
+        "description": "批量矩阵乘法(large)",
+        "single_gpu_mean_ms": 0.26,
+        "single_gpu_std_ms": 0.01,
+        "distributed_mean_ms": 1.03,
+        "distributed_std_ms": 0.25,
+        "speedup": 0.25
+      },
+      {
+        "equation": "ijkl,klmn->ijmn",
+        "shapes": [
+          [
+            16,
+            16,
+            32,
+            32
+          ],
+          [
+            32,
+            32,
+            16,
+            16
+          ]
+        ],
+        "description": "4阶张量收缩",
+        "single_gpu_mean_ms": 0.04,
+        "single_gpu_std_ms": 0.0,
+        "distributed_mean_ms": 0.5,
+        "distributed_std_ms": 0.01,
+        "speedup": 0.073
+      },
+      {
+        "equation": "ijk,ikl->ijl",
+        "shapes": [
+          [
+            64,
+            128,
+            64
+          ],
+          [
+            64,
+            64,
+            128
+          ]
+        ],
+        "description": "3阶收缩",
+        "single_gpu_mean_ms": 0.03,
+        "single_gpu_std_ms": 0.0,
+        "distributed_mean_ms": 0.34,
+        "distributed_std_ms": 0.01,
+        "speedup": 0.086
+      },
+      {
+        "equation": "ij,jk,kl->il",
+        "shapes": [
+          [
+            1024,
+            512
+          ],
+          [
+            512,
+            1024
+          ],
+          [
+            1024,
+            512
+          ]
+        ],
+        "description": "链式矩阵乘法",
+        "single_gpu_mean_ms": 0.19,
+        "single_gpu_std_ms": 0.0,
+        "distributed_mean_ms": 0.58,
+        "distributed_std_ms": 0.01,
+        "speedup": 0.319
+      }
+    ]
+  }
+}
